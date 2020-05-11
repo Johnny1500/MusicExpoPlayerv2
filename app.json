@@ -1,0 +1,17 @@
+{
+  "name": "MusicExpoPlayerv2",
+  "displayName": "MusicExpoPlayerv2",
+  "expo": {
+    "name": "MusicExpoPlayerv2",
+    "slug": "MusicExpoPlayerv2",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
