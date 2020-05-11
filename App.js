@@ -8,7 +8,6 @@ import Home from "./components/Home";
 
 export default function App() {
   return (
-    // <Text>Test</Text>
     <Provider store={store}>
       <Home />
     </Provider>
