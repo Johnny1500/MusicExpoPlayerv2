@@ -16,6 +16,8 @@ export class Controls extends React.Component {
       "https://ia803008.us.archive.org/3/items/a_day_with_great_poets_1308_librivox/a_day_with_great_poets_01_byron_128kb.mp3",
     imageSource:
       "https://ia803008.us.archive.org/3/items/a_day_with_great_poets_1308_librivox/day_great_poets_1310.jpg",
+    titleSource: "A Day With John Milton",
+    authorSource: "May Gillington Byron",
   };
 
   async componentDidMount() {
@@ -134,7 +136,13 @@ export class Controls extends React.Component {
   };
 
   render() {
-    const { isPlaying, imageSource, currentIndex } = this.state;
+    const {
+      isPlaying,
+      imageSource,
+      currentIndex,
+      titleSource,
+      authorSource,
+    } = this.state;
     const { tracks } = this.props;
     // console.log('tracks Controls :>> ', tracks);
     // console.log("track1 :>> ", tracks[currentIndex]);
@@ -147,6 +155,13 @@ export class Controls extends React.Component {
       : imageSource;
     // console.log("tracks[currentIndex] render :>> ", tracks[currentIndex]);
     // console.log("uriImageSource render :>> ", uriImageSource);
+    let trackTitle = tracks[currentIndex]
+      ? tracks[currentIndex].title
+      : titleSource;
+
+    let trackAuthor = tracks[currentIndex]
+      ? tracks[currentIndex].author
+      : authorSource;
 
     return (
       <View style={styles.container}>
@@ -157,7 +172,11 @@ export class Controls extends React.Component {
           }}
         />
 
-        <TouchableOpacity onPress={() => {this.handlePreviousTrack(amountOfTracks)}}>
+        <TouchableOpacity
+          onPress={() => {
+            this.handlePreviousTrack(amountOfTracks);
+          }}
+        >
           <MaterialIcons
             name="skip-previous"
             size={38}
@@ -179,13 +198,21 @@ export class Controls extends React.Component {
             />
           )}
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {this.handleNextTrack(amountOfTracks)}}>
+        <TouchableOpacity
+          onPress={() => {
+            this.handleNextTrack(amountOfTracks);
+          }}
+        >
           <MaterialIcons
             name="skip-next"
             size={38}
             style={styles.materialPicture}
           />
         </TouchableOpacity>
+        <View style={styles.textInfo}>
+          <Text>{trackTitle}</Text>
+          <Text>{trackAuthor}</Text>
+        </View>
       </View>
     );
   }
@@ -204,6 +231,10 @@ const styles = StyleSheet.create({
   albumCover: {
     width: 50,
     height: 50,
+  },
+  textInfo: {
+    flexDirection: "column",
+    alignItems: "center",
   },
 });
 
