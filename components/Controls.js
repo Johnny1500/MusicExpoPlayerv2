@@ -4,6 +4,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Audio, AVPlaybackStatus } from "expo-av";
 
 export class Controls extends React.Component {
+  _isMounted = false;
+
   state = {
     isPlaying: false,
     playbackInstance: null,
@@ -17,6 +19,8 @@ export class Controls extends React.Component {
   };
 
   async componentDidMount() {
+    this._isMounted = true;
+
     try {
       {
         await Audio.setAudioModeAsync({
@@ -27,11 +31,16 @@ export class Controls extends React.Component {
           playThroughEarpieceAndroid: true,
         });
 
-        this.loadAudio();
+        if (this._isMounted) this.loadAudio();
       }
     } catch (e) {
       console.log(e);
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+    this.setState({});
   }
 
   async loadAudio() {
