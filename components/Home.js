@@ -12,7 +12,7 @@ const Home = ({ loading, tracks, setTracks }) => {
   React.useEffect(() => {
     
     let mounted = true;
-    console.log("mounted :>> ", mounted);
+    // console.log("mounted :>> ", mounted);
 
     if (mounted) setTracks();
     // console.log('setTracks :>> ',setTracks());
@@ -21,7 +21,7 @@ const Home = ({ loading, tracks, setTracks }) => {
   }, []);
 
   // console.log('tracks :>> ', tracks);
-  console.log('tracks Home2:>> ', tracks[8]);
+  // console.log('tracks Home2:>> ', tracks[8]);
 
   let markup = !loading ? (
     <Controls tracks={tracks} />
@@ -38,28 +38,6 @@ const Home = ({ loading, tracks, setTracks }) => {
     </View>
   );
 };
-
-// class Home extends React.Component {
-//   componentDidMount() {
-//     this.props.setTracks();
-//   }
-
-//   render() {
-//     const { tracks, loading } = this.props;
-
-//     let markup = !loading ? (
-//       <Controls tracks={tracks} />
-//     ) : (
-//       <Text>Loading...</Text>
-//     );
-//     return (
-//       <View style={styles.container}>
-//         <View style={styles.lineStyle} />
-//         {markup}
-//       </View>
-//     );
-//   }
-// }
 
 const styles = StyleSheet.create({
   container: {

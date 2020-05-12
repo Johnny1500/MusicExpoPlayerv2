@@ -138,10 +138,10 @@ export class Controls extends React.Component {
     const { tracks } = this.props;
     // console.log('tracks Controls :>> ', tracks);
     // console.log("track1 :>> ", tracks[currentIndex]);
-    // console.log("currentIndex :>> ", currentIndex);
+    console.log("currentIndex :>> ", currentIndex);
 
     const amountOfTracks = tracks.length;
-    // console.log("amountOfTracks :>> ", amountOfTracks);
+    console.log("amountOfTracks :>> ", amountOfTracks);
     let uriImageSource = tracks[currentIndex]
       ? tracks[currentIndex].imageSource
       : imageSource;
@@ -157,7 +157,7 @@ export class Controls extends React.Component {
           }}
         />
 
-        <TouchableOpacity onPress={() => alert("")}>
+        <TouchableOpacity onPress={() => {this.handlePreviousTrack(amountOfTracks)}}>
           <MaterialIcons
             name="skip-previous"
             size={38}
@@ -179,7 +179,7 @@ export class Controls extends React.Component {
             />
           )}
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => alert("")}>
+        <TouchableOpacity onPress={() => {this.handleNextTrack(amountOfTracks)}}>
           <MaterialIcons
             name="skip-next"
             size={38}
