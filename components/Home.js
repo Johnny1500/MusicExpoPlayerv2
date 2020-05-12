@@ -8,24 +8,28 @@ import { setTracks } from "../redux/mediaActions";
 
 import Controls from "./Controls";
 
-const Home = ({ loading, tracks }) => {
+const Home = ({ loading, tracks, setTracks }) => {
   React.useEffect(() => {
+    
     let mounted = true;
-
     console.log("mounted :>> ", mounted);
 
     if (mounted) setTracks();
-
+    // console.log('setTracks :>> ',setTracks());
+    // console.log('tracks Home1:>> ', tracks);
     return () => (mounted = false);
   }, []);
 
+  // console.log('tracks :>> ', tracks);
+  console.log('tracks Home2:>> ', tracks[8]);
+
   let markup = !loading ? (
-    <Controls tracks={tracks} loading={loading} />
+    <Controls tracks={tracks} />
   ) : (
     <Text>Loading...</Text>
   );
 
-//   console.log("markup :>> ", markup);
+  //   console.log("markup :>> ", markup);
 
   return (
     <View style={styles.container}>
@@ -34,6 +38,28 @@ const Home = ({ loading, tracks }) => {
     </View>
   );
 };
+
+// class Home extends React.Component {
+//   componentDidMount() {
+//     this.props.setTracks();
+//   }
+
+//   render() {
+//     const { tracks, loading } = this.props;
+
+//     let markup = !loading ? (
+//       <Controls tracks={tracks} />
+//     ) : (
+//       <Text>Loading...</Text>
+//     );
+//     return (
+//       <View style={styles.container}>
+//         <View style={styles.lineStyle} />
+//         {markup}
+//       </View>
+//     );
+//   }
+// }
 
 const styles = StyleSheet.create({
   container: {

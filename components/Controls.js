@@ -43,7 +43,7 @@ export class Controls extends React.Component {
       trackSource,
     } = this.state;
 
-    const { tracks, loading } = this.props;
+    const { tracks } = this.props;
     // let track = tracks[currentIndex];
 
     // console.log('tracks :>> ', tracks);
@@ -58,7 +58,7 @@ export class Controls extends React.Component {
         volume: volume,
       };
 
-      //   console.log("tracks[currentIndex] loadAudio :>> ", tracks[currentIndex]);
+      // console.log("tracks[currentIndex] loadAudio :>> ", tracks[currentIndex]);
 
       let uriTrackSource = tracks[currentIndex]
         ? tracks[currentIndex].uri
@@ -94,6 +94,34 @@ export class Controls extends React.Component {
     this.setState({
       isPlaying: !isPlaying,
     });
+  };
+
+  handlePreviousTrack = async (amountOfTracks) => {
+    let { currentIndex, playbackInstance } = this.state;
+    if (playbackInstance) {
+      await playbackInstance.unloadAsync();
+      currentIndex > 0
+        ? (currentIndex -= 1)
+        : (currentIndex = amountOfTracks - 1);
+      this.setState({
+        currentIndex,
+      });
+      this.loadAudio();
+    }
+  };
+
+  handleNextTrack = async (amountOfTracks) => {
+    let { currentIndex, playbackInstance } = this.state;
+    if (playbackInstance) {
+      await playbackInstance.unloadAsync();
+      currentIndex < amountOfTracks - 1
+        ? (currentIndex += 1)
+        : (currentIndex = 0);
+      this.setState({
+        currentIndex,
+      });
+      this.loadAudio();
+    }
   };
 
   render() {

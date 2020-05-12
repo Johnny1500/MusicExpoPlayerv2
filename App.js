@@ -7,6 +7,9 @@ import store from "./redux/store";
 import Home from "./components/Home";
 
 export default function App() {
+  
+  console.log('store :>> ', store);
+
   return (
     <Provider store={store}>
       <Home />
