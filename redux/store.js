@@ -4,9 +4,21 @@ import thunk from "redux-thunk";
 import mediaReducer from "./mediaReducer";
 
 const initialState = {
-  tracks: [{"id":1, title:"test title", uri:"https://ia803008.us.archive.org/3/items/a_day_with_great_poets_1308_librivox/a_day_with_great_poets_01_byron_128kb.mp3", imageSource: "https://ia803008.us.archive.org/3/items/a_day_with_great_poets_1308_librivox/day_great_poets_1310.jpg"}],
-  currentTrackId: 0,
+  tracks: [],
+  currentTrack: {
+    author: "May Gillington Byron",
+    duration: "00:42:41",
+    imageSource: "https://ia803008.us.archive.org/3/items/a_day_with_great_poets_1308_librivox/day_great_poets_1310.jpg",
+    title: "A Day With John Milton",
+    uri: "https://ia803008.us.archive.org/3/items/a_day_with_great_poets_1308_librivox/a_day_with_great_poets_01_byron_128kb.mp3"
+  },
+  currentTrackId: 1,
   loading: false,
+  loadingPlaybackInstance: false,
+  isPlaying: false,
+  playbackInstance: null,
+  volume: 1.0,
+  isBuffering: false,
 };
 
 const store = createStore(mediaReducer, initialState, applyMiddleware(thunk));
