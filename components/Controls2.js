@@ -7,54 +7,73 @@ import { connect } from "react-redux";
 
 const Controls = ({
   playbackInstance,
-  currentTrack: { author, imageSource, title, uri },
+  tracks,
+  isPlaying,
+  currentTrack: { author, imageSource, title },
+  handlePlayPauseAction,
+  handleChangeTrackAction,
+  loadAudio,
 }) => {
-  
-    handlePlayPause = async () => {
-        // const { isPlaying, playbackInstance } = this.state;
-        isPlaying
-          ? await playbackInstance.pauseAsync()
-          : await playbackInstance.playAsync();
-    
-        this.setState({
-          isPlaying: !isPlaying,
-        });
-      };
+  handlePlayPause = async (playbackInstance, isPlaying) => {
+    isPlaying
+      ? await playbackInstance.pauseAsync()
+      : await playbackInstance.playAsync();
+    handlePlayPauseAction(isPlaying);
+  };
 
-      handlePreviousTrack = async (amountOfTracks) => {
-        let { currentIndex, playbackInstance } = this.state;
-        if (playbackInstance) {
-          await playbackInstance.unloadAsync();
-          currentIndex > 0
-            ? (currentIndex -= 1)
-            : (currentIndex = amountOfTracks - 1);
-          this.setState({
-            currentIndex,
-          });
-          this.loadAudio();
-        }
-      };
-    
-      handleNextTrack = async (amountOfTracks) => {
-        let { currentIndex, playbackInstance } = this.state;
-        if (playbackInstance) {
-          await playbackInstance.unloadAsync();
-          currentIndex < amountOfTracks - 1
-            ? (currentIndex += 1)
-            : (currentIndex = 0);
-          this.setState({
-            currentIndex,
-          });
-          this.loadAudio();
-        }
-      };
+  handlePreviousTrack = async (playbackInstance, currentIndex, tracks) => {
+    const amountOfTracks = tracks.length;
+    console.log("amountOfTracks :>> ", amountOfTracks);
 
+    try {
+      if (playbackInstance) {
+        await playbackInstance.unloadAsync();
 
-    return (
+        currentIndex > 0
+          ? (currentIndex -= 1)
+          : (currentIndex = amountOfTracks - 1);
+
+        handleChangeTrackAction(currentIndex, tracks);
+
+        const { uri, isPlaying } = tracks[currentIndex];
+        console.log("tracks[currentIndex].uri :>> ", uri);
+        console.log("tracks[currentIndex].isPlaying :>> ", isPlaying);
+
+        loadAudio(uri, isPlaying);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  handleNextTrack = async (playbackInstance, currentIndex, tracks) => {
+    const amountOfTracks = tracks.length;
+    console.log("amountOfTracks :>> ", amountOfTracks);
+
+    try {
+      if (playbackInstance) {
+        await playbackInstance.unloadAsync();
+        currentIndex < amountOfTracks - 1
+          ? (currentIndex += 1)
+          : (currentIndex = 0);
+        handleChangeTrackAction(currentIndex, tracks);
+
+        const { uri, isPlaying } = tracks[currentIndex];
+        console.log("tracks[currentIndex].uri :>> ", uri);
+        console.log("tracks[currentIndex].isPlaying :>> ", isPlaying);
+
+        loadAudio(uri, isPlaying);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  return (
     <View style={styles.container}>
       <TouchableOpacity
         onPress={() => {
-          handlePreviousTrack();
+          handlePreviousTrack(playbackInstance, currentIndex, tracks);
         }}
       >
         <MaterialIcons
@@ -63,7 +82,11 @@ const Controls = ({
           style={styles.materialPicture}
         />
       </TouchableOpacity>
-      <TouchableOpacity onPress={handlePlayPause}>
+      <TouchableOpacity
+        onPress={() => {
+          handlePlayPause(playbackInstance, isPlaying);
+        }}
+      >
         {isPlaying ? (
           <MaterialIcons
             name="pause-circle-filled"
@@ -80,7 +103,7 @@ const Controls = ({
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          handleNextTrack(amountOfTracks);
+          handleNextTrack(playbackInstance, currentIndex, tracks);
         }}
       >
         <MaterialIcons
@@ -92,12 +115,12 @@ const Controls = ({
       <Image
         style={styles.albumCover}
         source={{
-          uri: uriImageSource,
+          uri: imageSource,
         }}
       />
       <View style={styles.textInfo}>
-        <Text>{trackTitle}</Text>
-        <Text>{trackAuthor}</Text>
+        <Text style={styles.titleText}>{title}</Text>
+        <Text>{author}</Text>
       </View>
     </View>
   );
@@ -121,11 +144,23 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
   },
+  titleText: {
+    fontWeight: "bold",
+  },
 });
+
+const mapActionsToProps = {
+  handlePlayPauseAction,
+  handleChangeTrackAction,
+  loadAudio,
+};
 
 const mapStateToProps = (state) => ({
   playbackInstance: state.playbackInstance,
   currentTrack: state.currentTrack,
+  isPlaying: state.isPlaying,
+  currentIndex: state.currentIndex,
+  tracks: state.tracks,
 });
 
-export default connect(mapStateToProps)(Controls);
+export default connect(mapStateToProps, mapActionsToProps)(Controls);

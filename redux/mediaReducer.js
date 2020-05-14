@@ -1,4 +1,13 @@
-import { LOADING_DATA, SET_TRACKS, LOADING_FAILED, LOADING_PLAYBACKINSTANCE, SET_PLAYBACKINSTANCE } from "./types";
+import {
+  LOADING_DATA,
+  SET_TRACKS,
+  LOADING_FAILED,
+  LOADING_PLAYBACKINSTANCE,
+  SET_PLAYBACKINSTANCE,
+  SET_PLAY,
+  SET_CURRENT_INDEX,
+  SET_CURRENT_TRACK,
+} from "./types";
 
 export default function (state, action) {
   switch (action.type) {
@@ -27,10 +36,25 @@ export default function (state, action) {
     case SET_PLAYBACKINSTANCE:
       return {
         ...state,
-        playbackInstance: action.payload
-      }
+        playbackInstance: action.payload,
+      };
+    case SET_PLAY:
+      return {
+        ...state,
+        isPlaying: action.payload,
+      };
+    case SET_CURRENT_INDEX:
+      return {
+        ...state,
+        currentIndex: action.payload,
+      };
+    case SET_CURRENT_TRACK:
+      return {
+        ...state,
+        currentTrack: action.payload,
+      };
     default:
       throw new Error(`Not supported action ${action.type}`);
-      // return state;
+    // return state;
   }
 }

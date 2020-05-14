@@ -9,11 +9,12 @@ const initialState = {
   currentTrack: {
     author: "May Gillington Byron",
     duration: "00:42:41",
-    imageSource: "https://ia803008.us.archive.org/3/items/a_day_with_great_poets_1308_librivox/day_great_poets_1310.jpg",
+    imageSource:
+      "https://ia803008.us.archive.org/3/items/a_day_with_great_poets_1308_librivox/day_great_poets_1310.jpg",
     title: "A Day With John Milton",
-    uri: "https://ia803008.us.archive.org/3/items/a_day_with_great_poets_1308_librivox/a_day_with_great_poets_01_byron_128kb.mp3"
+    uri:
+      "https://ia803008.us.archive.org/3/items/a_day_with_great_poets_1308_librivox/a_day_with_great_poets_01_byron_128kb.mp3",
   },
-  currentTrackId: 1,
   currentIndex: 0,
   loading: false,
   loadingPlaybackInstance: false,

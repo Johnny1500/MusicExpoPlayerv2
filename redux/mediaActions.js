@@ -1,4 +1,4 @@
-import { LOADING_DATA, SET_TRACKS, LOADING_FAILED, LOADING_PLAYBACKINSTANCE, SET_PLAYBACKINSTANCE } from "./types";
+import { LOADING_DATA, SET_TRACKS, LOADING_FAILED, LOADING_PLAYBACKINSTANCE, SET_PLAYBACKINSTANCE, SET_PLAY, SET_CURRENT_INDEX, SET_CURRENT_TRACK } from "./types";
 import { Audio } from "expo-av";
 import axios from "axios";
 
@@ -45,7 +45,8 @@ export const setTracks = () => async (dispatch) => {
 export const loadAudio = async (uri, isPlaying) => dispatch => {
  
   try {
-    
+    console.log('loadAudio uri :>> ', uri);
+    console.log('loadAudio isPlaying :>> ', isPlaying);
     dispatch({ type: LOADING_PLAYBACKINSTANCE });
 
     const playbackInstance = new Audio.Sound();
@@ -79,3 +80,23 @@ export const loadAudio = async (uri, isPlaying) => dispatch => {
   }
 
 }
+
+export const handlePlayPauseAction = isPlaying => dispatch => {
+  
+  dispatch({ type: SET_PLAY, payload: !isPlaying });
+  console.log('isPlaying :>> ', !isPlaying);
+};
+
+export const handleChangeTrackAction = (currentIndex, tracks) => dispatch => {
+  
+        dispatch({ type: SET_CURRENT_INDEX, payload: currentIndex });
+        console.log('currentIndex :>> ', currentIndex);
+        dispatch({ type: SET_CURRENT_TRACK, payload: tracks[currentIndex] });
+        console.log('currentTrack :>> ', tracks[currentIndex]);
+};
+
+// export const handleNextTrackAction = (currentIndex, tracks) => dispatch => {
+  
+//         dispatch({ type: SET_CURRENT_INDEX, payload: currentIndex });
+//         console.log('currentIndex :>> ', currentIndex);
+// };
