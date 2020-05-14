@@ -1,23 +1,44 @@
 import * as React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
+import { Audio } from "expo-av";
 
 // Redux stuff
 import { connect } from "react-redux";
 import { setTracks } from "../redux/mediaActions";
 
-import Controls from "./Controls";
+// import Controls from "./Controls";
+import Controls from "./Controls2";
 
 const Home = ({ loading, tracks, setTracks }) => {
   React.useEffect(() => {
     
-    let mounted = true;
-    // console.log("mounted :>> ", mounted);
+    // let mounted = true;
+    // // console.log("mounted :>> ", mounted);
 
-    if (mounted) setTracks();
+    // if (mounted) setTracks();
     // console.log('setTracks :>> ',setTracks());
     // console.log('tracks Home1:>> ', tracks);
-    return () => (mounted = false);
+
+    try {
+      {
+        await Audio.setAudioModeAsync({
+          interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+          playsInSilentModeIOS: true,
+          interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
+          staysActiveInBackground: true,
+          playThroughEarpieceAndroid: true,
+        });
+        
+        setTracks();
+        
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+
+    // return () => (mounted = false);
   }, []);
 
   // console.log('tracks :>> ', tracks);

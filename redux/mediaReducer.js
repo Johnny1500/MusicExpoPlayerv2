@@ -1,4 +1,4 @@
-import { LOADING_DATA, SET_TRACKS, LOADING_FAILED } from "./types";
+import { LOADING_DATA, SET_TRACKS, LOADING_FAILED, LOADING_PLAYBACKINSTANCE, SET_PLAYBACKINSTANCE } from "./types";
 
 export default function (state, action) {
   switch (action.type) {
@@ -19,7 +19,18 @@ export default function (state, action) {
         message: action.message,
         loading: false,
       };
+    case LOADING_PLAYBACKINSTANCE:
+      return {
+        ...state,
+        loadingPlaybackInstance: true,
+      };
+    case SET_PLAYBACKINSTANCE:
+      return {
+        ...state,
+        playbackInstance: action.payload
+      }
     default:
-      return state;
+      throw new Error(`Not supported action ${action.type}`);
+      // return state;
   }
 }

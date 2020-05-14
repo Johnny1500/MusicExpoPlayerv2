@@ -5,6 +5,7 @@ import mediaReducer from "./mediaReducer";
 
 const initialState = {
   tracks: [],
+  favoriteTracks: [],
   currentTrack: {
     author: "May Gillington Byron",
     duration: "00:42:41",
@@ -13,6 +14,7 @@ const initialState = {
     uri: "https://ia803008.us.archive.org/3/items/a_day_with_great_poets_1308_librivox/a_day_with_great_poets_01_byron_128kb.mp3"
   },
   currentTrackId: 1,
+  currentIndex: 0,
   loading: false,
   loadingPlaybackInstance: false,
   isPlaying: false,
