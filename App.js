@@ -8,7 +8,7 @@ import Home from "./components/Home";
 
 export default function App() {
   
-  console.log('store :>> ', store);
+  console.log('App initial store :>> ', store);
 
   return (
     <Provider store={store}>

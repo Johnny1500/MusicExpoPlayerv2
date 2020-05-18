@@ -13,6 +13,7 @@ export const setTracks = () => async (dispatch) => {
 
     // console.log('test2 setTracks');
 
+    console.log('mediaActions start loading tracks');
     dispatch({ type: LOADING_DATA });
 
     let res = await axios.get("/tracks/");
@@ -20,6 +21,8 @@ export const setTracks = () => async (dispatch) => {
     // console.log('res.data :>> ', res.data);
 
     dispatch({ type: SET_TRACKS, payload: res.data });
+    console.log('mediaActions tracks were loaded');
+    // console.log('mediaActions setTracks() res.data :>> ', res.data);
   } catch (e) {
     console.log(e);
     dispatch({ type: LOADING_FAILED, message: e.message });
@@ -42,11 +45,11 @@ export const setTracks = () => async (dispatch) => {
 //   }
 // }
 
-export const loadAudio = async (uri, isPlaying) => dispatch => {
+export const loadAudio = (uri, isPlaying) => async (dispatch) => {
  
   try {
-    console.log('loadAudio uri :>> ', uri);
-    console.log('loadAudio isPlaying :>> ', isPlaying);
+    console.log('mediaActions loadAudio uri :>> ', uri);
+    console.log('mediaActions loadAudio isPlaying :>> ', isPlaying);
     dispatch({ type: LOADING_PLAYBACKINSTANCE });
 
     const playbackInstance = new Audio.Sound();
@@ -59,7 +62,7 @@ export const loadAudio = async (uri, isPlaying) => dispatch => {
         uri: uri,
       };
 
-      playbackInstance.setOnPlaybackStatusUpdate(_onPlaybackStatusUpdate);
+      playbackInstance.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdate);
       await playbackInstance.loadAsync(source, status, false);
 
       dispatch({ type: SET_PLAYBACKINSTANCE, payload: playbackInstance });
@@ -71,9 +74,9 @@ export const loadAudio = async (uri, isPlaying) => dispatch => {
 
   _onPlaybackStatusUpdate = playbackStatus => {
     if(playbackStatus.isLoaded) {
-      console.log('track loaded');
-      console.log('track uri :>> ', playbackStatus.uri);
-      console.log('volume :>> ', playbackStatus.volume);
+      // console.log('mediaActions _onPlaybackStatusUpdate track loaded');
+      // console.log('mediaActions _onPlaybackStatusUpdate track uri :>> ', playbackStatus.uri);
+      // console.log('mediaActions _onPlaybackStatusUpdate volume :>> ', playbackStatus.volume);
     } else {
       console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
     }
@@ -84,15 +87,15 @@ export const loadAudio = async (uri, isPlaying) => dispatch => {
 export const handlePlayPauseAction = isPlaying => dispatch => {
   
   dispatch({ type: SET_PLAY, payload: !isPlaying });
-  console.log('isPlaying :>> ', !isPlaying);
+  console.log('mediaActions handlePlayPauseAction isPlaying :>> ', !isPlaying);
 };
 
 export const handleChangeTrackAction = (currentIndex, tracks) => dispatch => {
   
         dispatch({ type: SET_CURRENT_INDEX, payload: currentIndex });
-        console.log('currentIndex :>> ', currentIndex);
+        console.log('mediaActions handleChangeTrackAction currentIndex :>> ', currentIndex);
         dispatch({ type: SET_CURRENT_TRACK, payload: tracks[currentIndex] });
-        console.log('currentTrack :>> ', tracks[currentIndex]);
+        console.log('mediaActions handleChangeTrackAction currentTrack :>> ', tracks[currentIndex]);
 };
 
 // export const handleNextTrackAction = (currentIndex, tracks) => dispatch => {

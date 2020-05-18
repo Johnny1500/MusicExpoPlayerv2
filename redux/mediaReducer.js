@@ -37,6 +37,7 @@ export default function (state, action) {
       return {
         ...state,
         playbackInstance: action.payload,
+        loadingPlaybackInstance: false,
       };
     case SET_PLAY:
       return {
@@ -54,7 +55,7 @@ export default function (state, action) {
         currentTrack: action.payload,
       };
     default:
-      throw new Error(`Not supported action ${action.type}`);
-    // return state;
+      // throw new Error(`Not supported action ${action.type}`);
+    return state;
   }
 }

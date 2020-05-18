@@ -4,15 +4,21 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 // Redux stuff
 import { connect } from "react-redux";
+import {
+  loadAudio,
+  handlePlayPauseAction,
+  handleChangeTrackAction,
+} from "../redux/mediaActions";
 
 const Controls = ({
   playbackInstance,
   tracks,
   isPlaying,
   currentTrack: { author, imageSource, title },
+  currentIndex,
+  loadAudio,
   handlePlayPauseAction,
   handleChangeTrackAction,
-  loadAudio,
 }) => {
   handlePlayPause = async (playbackInstance, isPlaying) => {
     isPlaying
@@ -23,7 +29,10 @@ const Controls = ({
 
   handlePreviousTrack = async (playbackInstance, currentIndex, tracks) => {
     const amountOfTracks = tracks.length;
-    console.log("amountOfTracks :>> ", amountOfTracks);
+    console.log(
+      "Controls2 handlePreviousTrack amountOfTracks :>> ",
+      amountOfTracks
+    );
 
     try {
       if (playbackInstance) {
@@ -36,8 +45,14 @@ const Controls = ({
         handleChangeTrackAction(currentIndex, tracks);
 
         const { uri, isPlaying } = tracks[currentIndex];
-        console.log("tracks[currentIndex].uri :>> ", uri);
-        console.log("tracks[currentIndex].isPlaying :>> ", isPlaying);
+        console.log(
+          "Controls2 handlePreviousTrack tracks[currentIndex].uri :>> ",
+          uri
+        );
+        console.log(
+          "Controls2 handlePreviousTrack tracks[currentIndex].isPlaying :>> ",
+          isPlaying
+        );
 
         loadAudio(uri, isPlaying);
       }
@@ -48,7 +63,10 @@ const Controls = ({
 
   handleNextTrack = async (playbackInstance, currentIndex, tracks) => {
     const amountOfTracks = tracks.length;
-    console.log("amountOfTracks :>> ", amountOfTracks);
+    console.log(
+      "Controls2 handleNextTrack amountOfTracks :>> ",
+      amountOfTracks
+    );
 
     try {
       if (playbackInstance) {
@@ -59,8 +77,14 @@ const Controls = ({
         handleChangeTrackAction(currentIndex, tracks);
 
         const { uri, isPlaying } = tracks[currentIndex];
-        console.log("tracks[currentIndex].uri :>> ", uri);
-        console.log("tracks[currentIndex].isPlaying :>> ", isPlaying);
+        console.log(
+          "Controls2 handleNextTrack tracks[currentIndex].uri :>> ",
+          uri
+        );
+        console.log(
+          "Controls2 handleNextTrack tracks[currentIndex].isPlaying :>> ",
+          isPlaying
+        );
 
         loadAudio(uri, isPlaying);
       }
@@ -143,6 +167,7 @@ const styles = StyleSheet.create({
   textInfo: {
     flexDirection: "column",
     alignItems: "center",
+    padding: 8,
   },
   titleText: {
     fontWeight: "bold",
@@ -150,14 +175,15 @@ const styles = StyleSheet.create({
 });
 
 const mapActionsToProps = {
+  loadAudio,
   handlePlayPauseAction,
   handleChangeTrackAction,
-  loadAudio,
 };
 
 const mapStateToProps = (state) => ({
   playbackInstance: state.playbackInstance,
   currentTrack: state.currentTrack,
+  currentIndex: state.currentIndex,
   isPlaying: state.isPlaying,
   currentIndex: state.currentIndex,
   tracks: state.tracks,

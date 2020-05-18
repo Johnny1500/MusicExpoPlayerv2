@@ -5,14 +5,20 @@ import { Audio } from "expo-av";
 
 // Redux stuff
 import { connect } from "react-redux";
-import { setTracks } from "../redux/mediaActions";
+import { setTracks, loadAudio } from "../redux/mediaActions";
 
 // import Controls from "./Controls";
 import Controls from "./Controls2";
 
-const Home = ({ loading, tracks, setTracks }) => {
+const Home = ({
+  loading,
+  tracks,
+  isPlaying,
+  currentTrack: { uri },
+  setTracks,
+  loadAudio,
+}) => {
   React.useEffect(() => {
-    
     // let mounted = true;
     // // console.log("mounted :>> ", mounted);
 
@@ -20,23 +26,31 @@ const Home = ({ loading, tracks, setTracks }) => {
     // console.log('setTracks :>> ',setTracks());
     // console.log('tracks Home1:>> ', tracks);
 
-    try {
-      {
-        await Audio.setAudioModeAsync({
-          interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-          playsInSilentModeIOS: true,
-          interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
-          staysActiveInBackground: true,
-          playThroughEarpieceAndroid: true,
-        });
-        
-        setTracks();
-        
+    async function fetchData() {
+      try {
+        {
+          await Audio.setAudioModeAsync({
+            interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+            playsInSilentModeIOS: true,
+            interruptionModeAndroid:
+              Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
+            staysActiveInBackground: true,
+            playThroughEarpieceAndroid: true,
+          });
+
+          console.log("Home useEffect setTracks()");
+          setTracks();
+          console.log("Home useEffect first loading audio");
+          console.log("Home useEffect uri :>> ", uri);
+          console.log("Home useEffect isPlaying :>> ", isPlaying);
+          loadAudio(uri, isPlaying);
+        }
+      } catch (e) {
+        console.log(e);
       }
-    } catch (e) {
-      console.log(e);
     }
 
+    fetchData();
 
     // return () => (mounted = false);
   }, []);
@@ -73,9 +87,16 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapActionsToProps = {
+  setTracks,
+  loadAudio,
+};
+
 const mapStateToProps = (state) => ({
   loading: state.loading,
   tracks: state.tracks,
+  currentTrack: state.currentTrack,
+  isPlaying: state.isPlaying,
 });
 
-export default connect(mapStateToProps, { setTracks })(Home);
+export default connect(mapStateToProps, mapActionsToProps)(Home);
