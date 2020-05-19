@@ -21,29 +21,13 @@ export const setTracks = () => async (dispatch) => {
     // console.log('res.data :>> ', res.data);
 
     dispatch({ type: SET_TRACKS, payload: res.data });
-    console.log('mediaActions tracks were loaded');
+    console.log('mediaActions tracks have been loaded');
     // console.log('mediaActions setTracks() res.data :>> ', res.data);
   } catch (e) {
     console.log(e);
     dispatch({ type: LOADING_FAILED, message: e.message });
   }
 };
-
-// export const setAudio = async () => dispatch => {
-//   try {
-//     {
-//       await Audio.setAudioModeAsync({
-//         interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-//         playsInSilentModeIOS: true,
-//         interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
-//         staysActiveInBackground: true,
-//         playThroughEarpieceAndroid: true,
-//       });
-//       }
-//   } catch (e) {
-//     console.log(e);
-//   }
-// }
 
 export const loadAudio = (uri, isPlaying) => async (dispatch) => {
  
@@ -62,7 +46,7 @@ export const loadAudio = (uri, isPlaying) => async (dispatch) => {
         uri: uri,
       };
 
-      playbackInstance.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdate);
+      // playbackInstance.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdate);
       await playbackInstance.loadAsync(source, status, false);
 
       dispatch({ type: SET_PLAYBACKINSTANCE, payload: playbackInstance });
@@ -72,15 +56,15 @@ export const loadAudio = (uri, isPlaying) => async (dispatch) => {
     dispatch({ type: LOADING_FAILED, message: e.message });
   }
 
-  _onPlaybackStatusUpdate = playbackStatus => {
-    if(playbackStatus.isLoaded) {
-      // console.log('mediaActions _onPlaybackStatusUpdate track loaded');
-      // console.log('mediaActions _onPlaybackStatusUpdate track uri :>> ', playbackStatus.uri);
-      // console.log('mediaActions _onPlaybackStatusUpdate volume :>> ', playbackStatus.volume);
-    } else {
-      console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
-    }
-  }
+  // _onPlaybackStatusUpdate = playbackStatus => {
+  //   if(playbackStatus.isLoaded) {
+  //     // console.log('mediaActions _onPlaybackStatusUpdate track loaded');
+  //     // console.log('mediaActions _onPlaybackStatusUpdate track uri :>> ', playbackStatus.uri);
+  //     // console.log('mediaActions _onPlaybackStatusUpdate volume :>> ', playbackStatus.volume);
+  //   } else {
+  //     console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
+  //   }
+  // }
 
 }
 
@@ -97,9 +81,3 @@ export const handleChangeTrackAction = (currentIndex, tracks) => dispatch => {
         dispatch({ type: SET_CURRENT_TRACK, payload: tracks[currentIndex] });
         console.log('mediaActions handleChangeTrackAction currentTrack :>> ', tracks[currentIndex]);
 };
-
-// export const handleNextTrackAction = (currentIndex, tracks) => dispatch => {
-  
-//         dispatch({ type: SET_CURRENT_INDEX, payload: currentIndex });
-//         console.log('currentIndex :>> ', currentIndex);
-// };

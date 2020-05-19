@@ -14,12 +14,22 @@ const Controls = ({
   playbackInstance,
   tracks,
   isPlaying,
-  currentTrack: { author, imageSource, title },
   currentIndex,
   loadAudio,
   handlePlayPauseAction,
   handleChangeTrackAction,
 }) => {
+  React.useEffect(() => {
+    // console.log("Controls2 useEffect tracks :>> ", tracks);
+    const { uri } = tracks[currentIndex];
+    console.log("Controls2 useEffect uri :>> ", uri);
+    console.log("Controls2 useEffectisPlaying :>> ", isPlaying);
+    loadAudio(uri, isPlaying);
+  }, []);
+
+  const { imageSource, author, title } = tracks[currentIndex];
+  console.log("Controls2 imageSource :>> ", imageSource);
+
   handlePlayPause = async (playbackInstance, isPlaying) => {
     isPlaying
       ? await playbackInstance.pauseAsync()
@@ -200,7 +210,6 @@ const mapActionsToProps = {
 
 const mapStateToProps = (state) => ({
   playbackInstance: state.playbackInstance,
-  currentTrack: state.currentTrack,
   currentIndex: state.currentIndex,
   isPlaying: state.isPlaying,
   currentIndex: state.currentIndex,
