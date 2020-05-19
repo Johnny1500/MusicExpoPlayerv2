@@ -212,7 +212,6 @@ const mapStateToProps = (state) => ({
   playbackInstance: state.playbackInstance,
   currentIndex: state.currentIndex,
   isPlaying: state.isPlaying,
-  currentIndex: state.currentIndex,
   tracks: state.tracks,
 });
 
