@@ -27,7 +27,12 @@ const Controls = ({
     handlePlayPauseAction(isPlaying);
   };
 
-  handlePreviousTrack = async (playbackInstance, currentIndex, tracks) => {
+  handlePreviousTrack = async (
+    playbackInstance,
+    currentIndex,
+    tracks,
+    isPlaying
+  ) => {
     const amountOfTracks = tracks.length;
     console.log(
       "Controls2 handlePreviousTrack amountOfTracks :>> ",
@@ -44,7 +49,7 @@ const Controls = ({
 
         handleChangeTrackAction(currentIndex, tracks);
 
-        const { uri, isPlaying } = tracks[currentIndex];
+        const { uri } = tracks[currentIndex];
         console.log(
           "Controls2 handlePreviousTrack tracks[currentIndex].uri :>> ",
           uri
@@ -61,7 +66,12 @@ const Controls = ({
     }
   };
 
-  handleNextTrack = async (playbackInstance, currentIndex, tracks) => {
+  handleNextTrack = async (
+    playbackInstance,
+    currentIndex,
+    tracks,
+    isPlaying
+  ) => {
     const amountOfTracks = tracks.length;
     console.log(
       "Controls2 handleNextTrack amountOfTracks :>> ",
@@ -76,7 +86,7 @@ const Controls = ({
           : (currentIndex = 0);
         handleChangeTrackAction(currentIndex, tracks);
 
-        const { uri, isPlaying } = tracks[currentIndex];
+        const { uri } = tracks[currentIndex];
         console.log(
           "Controls2 handleNextTrack tracks[currentIndex].uri :>> ",
           uri
@@ -97,7 +107,12 @@ const Controls = ({
     <View style={styles.container}>
       <TouchableOpacity
         onPress={() => {
-          handlePreviousTrack(playbackInstance, currentIndex, tracks);
+          handlePreviousTrack(
+            playbackInstance,
+            currentIndex,
+            tracks,
+            isPlaying
+          );
         }}
       >
         <MaterialIcons
@@ -127,7 +142,7 @@ const Controls = ({
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          handleNextTrack(playbackInstance, currentIndex, tracks);
+          handleNextTrack(playbackInstance, currentIndex, tracks, isPlaying);
         }}
       >
         <MaterialIcons
@@ -165,12 +180,15 @@ const styles = StyleSheet.create({
     height: 50,
   },
   textInfo: {
+    flex: 1,
     flexDirection: "column",
     alignItems: "center",
-    padding: 8,
+    justifyContent: "center",
   },
   titleText: {
+    overflow: "hidden",
     fontWeight: "bold",
+    textAlign: "center",
   },
 });
 
