@@ -1,6 +1,7 @@
 import * as React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 
 // Redux stuff
 import { connect } from "react-redux";
@@ -127,7 +128,7 @@ const Controls = ({
       >
         <MaterialIcons
           name="skip-previous"
-          size={38}
+          size={vh(5.8)}
           style={styles.materialPicture}
         />
       </TouchableOpacity>
@@ -139,13 +140,13 @@ const Controls = ({
         {isPlaying ? (
           <MaterialIcons
             name="pause-circle-filled"
-            size={38}
+            size={vh(5.8)}
             style={styles.materialPicture}
           />
         ) : (
           <MaterialIcons
             name="play-circle-filled"
-            size={38}
+            size={vh(5.8)}
             style={styles.materialPicture}
           />
         )}
@@ -157,7 +158,7 @@ const Controls = ({
       >
         <MaterialIcons
           name="skip-next"
-          size={38}
+          size={vh(5.8)}
           style={styles.materialPicture}
         />
       </TouchableOpacity>
@@ -181,13 +182,13 @@ const styles = StyleSheet.create({
   },
   container: {
     flexDirection: "row",
-    height: 60,
-    margin: 10,
+    height: vh(9),
+    margin: vh(1.5),
     alignItems: "center",
   },
   albumCover: {
-    width: 50,
-    height: 50,
+    width: vw(14),
+    height: vh(7.5),
   },
   textInfo: {
     flex: 1,
