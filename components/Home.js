@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import {  ActivityIndicator, StyleSheet, View, Text } from "react-native";
 import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 import { Audio } from "expo-av";
 
@@ -31,23 +31,36 @@ const Home = ({ loading, tracks, setTracks }) => {
   }, []);
 
   let markup = !loading ? (
-    <Controls tracks={tracks} />
-  ) : (
-    <Text>Loading...</Text>
-  );
-
-  return (
-    <View style={styles.container}>
+    <View>
       <View style={styles.lineStyle} />
-      {markup}
+      <Controls tracks={tracks} />
+    </View>
+  ) : (
+    <View>
+    <ActivityIndicator size="large" color="#2f712f" />
+    <Text>Loading...</Text>
     </View>
   );
+
+  return <View style={loading ? styles.containerLoading : styles.containerControl}>{markup}</View>;
 };
 
 const styles = StyleSheet.create({
-  container: {
+    
+  containerLoading: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+
+  containerControl: {
     flex: 1,
     justifyContent: "flex-end",
+  },
+
+  loadingText: {
+    height: vh(25),
+    fontWeight: "bold",
   },
 
   lineStyle: {
