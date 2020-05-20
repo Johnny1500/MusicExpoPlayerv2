@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { setTracks } from "../redux/mediaActions";
 
 // import Controls from "./Controls";
-import Controls from "./Controls2";
+import Controls from "./Controls";
 
 const Home = ({ loading, tracks, setTracks }) => {
   React.useEffect(() => {

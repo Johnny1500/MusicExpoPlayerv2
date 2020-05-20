@@ -1,222 +1,179 @@
 import * as React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Audio, AVPlaybackStatus } from "expo-av";
 
-export class Controls extends React.Component {
-  _isMounted = false;
+// Redux stuff
+import { connect } from "react-redux";
+import {
+  loadAudio,
+  handlePlayPauseAction,
+  handleChangeTrackAction,
+} from "../redux/mediaActions";
 
-  state = {
-    isPlaying: false,
-    playbackInstance: null,
-    currentIndex: 0,
-    volume: 1.0,
-    isBuffering: false,
-    trackSource:
-      "https://ia803008.us.archive.org/3/items/a_day_with_great_poets_1308_librivox/a_day_with_great_poets_01_byron_128kb.mp3",
-    imageSource:
-      "https://ia803008.us.archive.org/3/items/a_day_with_great_poets_1308_librivox/day_great_poets_1310.jpg",
-    titleSource: "A Day With John Milton",
-    authorSource: "May Gillington Byron",
+const Controls = ({
+  playbackInstance,
+  tracks,
+  isPlaying,
+  currentIndex,
+  loadAudio,
+  handlePlayPauseAction,
+  handleChangeTrackAction,
+}) => {
+  React.useEffect(() => {
+    // console.log("Controls2 useEffect tracks :>> ", tracks);
+    const { uri } = tracks[currentIndex];
+    console.log("Controls2 useEffect uri :>> ", uri);
+    console.log("Controls2 useEffectisPlaying :>> ", isPlaying);
+    loadAudio(uri, isPlaying);
+  }, []);
+
+  const { imageSource, author, title } = tracks[currentIndex];
+  console.log("Controls2 imageSource :>> ", imageSource);
+
+  handlePlayPause = async (playbackInstance, isPlaying) => {
+    isPlaying
+      ? await playbackInstance.pauseAsync()
+      : await playbackInstance.playAsync();
+    handlePlayPauseAction(isPlaying);
   };
 
-  async componentDidMount() {
-    this._isMounted = true;
+  handlePreviousTrack = async (
+    playbackInstance,
+    currentIndex,
+    tracks,
+    isPlaying
+  ) => {
+    const amountOfTracks = tracks.length;
+    console.log(
+      "Controls2 handlePreviousTrack amountOfTracks :>> ",
+      amountOfTracks
+    );
 
     try {
-      {
-        await Audio.setAudioModeAsync({
-          interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-          playsInSilentModeIOS: true,
-          interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
-          staysActiveInBackground: true,
-          playThroughEarpieceAndroid: true,
-        });
+      if (playbackInstance) {
+        await playbackInstance.unloadAsync();
 
-        if (this._isMounted) this.loadAudio();
+        currentIndex > 0
+          ? (currentIndex -= 1)
+          : (currentIndex = amountOfTracks - 1);
+
+        handleChangeTrackAction(currentIndex, tracks);
+
+        const { uri } = tracks[currentIndex];
+        console.log(
+          "Controls2 handlePreviousTrack tracks[currentIndex].uri :>> ",
+          uri
+        );
+        console.log(
+          "Controls2 handlePreviousTrack tracks[currentIndex].isPlaying :>> ",
+          isPlaying
+        );
+
+        loadAudio(uri, isPlaying);
       }
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
-  componentWillUnmount() {
-    this._isMounted = false;
-    this.setState({});
-  }
-
-  async loadAudio() {
-    const {
-      currentIndex,
-      isPlaying,
-      isBuffering,
-      volume,
-      trackSource,
-    } = this.state;
-
-    const { tracks } = this.props;
-    // let track = tracks[currentIndex];
-
-    // console.log('tracks :>> ', tracks);
-    // console.log("track :>> ", track);
-    // console.log("loading :>> ", loading);
+  handleNextTrack = async (
+    playbackInstance,
+    currentIndex,
+    tracks,
+    isPlaying
+  ) => {
+    const amountOfTracks = tracks.length;
+    console.log(
+      "Controls2 handleNextTrack amountOfTracks :>> ",
+      amountOfTracks
+    );
 
     try {
-      const playbackInstance = new Audio.Sound();
+      if (playbackInstance) {
+        await playbackInstance.unloadAsync();
+        currentIndex < amountOfTracks - 1
+          ? (currentIndex += 1)
+          : (currentIndex = 0);
+        handleChangeTrackAction(currentIndex, tracks);
 
-      const status = {
-        shouldPlay: isPlaying,
-        volume: volume,
-      };
+        const { uri } = tracks[currentIndex];
+        console.log(
+          "Controls2 handleNextTrack tracks[currentIndex].uri :>> ",
+          uri
+        );
+        console.log(
+          "Controls2 handleNextTrack tracks[currentIndex].isPlaying :>> ",
+          isPlaying
+        );
 
-      // console.log("tracks[currentIndex] loadAudio :>> ", tracks[currentIndex]);
-
-      let uriTrackSource = tracks[currentIndex]
-        ? tracks[currentIndex].uri
-        : trackSource;
-      //   console.log("uriTrackSource loadAudio:>> ", uriTrackSource);
-
-      const source = {
-        uri: uriTrackSource,
-      };
-
-      playbackInstance.setOnPlaybackStatusUpdate(this.onPlaybackStatusUpdate);
-      await playbackInstance.loadAsync(source, status, false);
-      this.setState({
-        playbackInstance,
-      });
+        loadAudio(uri, isPlaying);
+      }
     } catch (e) {
       console.log(e);
     }
-  }
-
-  onPlaybackStatusUpdate = (status) => {
-    this.setState({
-      isBuffering: status.isBuffering,
-    });
   };
 
-  handlePlayPause = async () => {
-    const { isPlaying, playbackInstance } = this.state;
-    isPlaying
-      ? await playbackInstance.pauseAsync()
-      : await playbackInstance.playAsync();
-
-    this.setState({
-      isPlaying: !isPlaying,
-    });
-  };
-
-  handlePreviousTrack = async (amountOfTracks) => {
-    let { currentIndex, playbackInstance } = this.state;
-    if (playbackInstance) {
-      await playbackInstance.unloadAsync();
-      currentIndex > 0
-        ? (currentIndex -= 1)
-        : (currentIndex = amountOfTracks - 1);
-      this.setState({
-        currentIndex,
-      });
-      this.loadAudio();
-    }
-  };
-
-  handleNextTrack = async (amountOfTracks) => {
-    let { currentIndex, playbackInstance } = this.state;
-    if (playbackInstance) {
-      await playbackInstance.unloadAsync();
-      currentIndex < amountOfTracks - 1
-        ? (currentIndex += 1)
-        : (currentIndex = 0);
-      this.setState({
-        currentIndex,
-      });
-      this.loadAudio();
-    }
-  };
-
-  render() {
-    const {
-      isPlaying,
-      imageSource,
-      currentIndex,
-      titleSource,
-      authorSource,
-    } = this.state;
-    const { tracks } = this.props;
-    // console.log('tracks Controls :>> ', tracks);
-    // console.log("track1 :>> ", tracks[currentIndex]);
-    console.log("currentIndex :>> ", currentIndex);
-
-    const amountOfTracks = tracks.length;
-    console.log("amountOfTracks :>> ", amountOfTracks);
-    let uriImageSource = tracks[currentIndex]
-      ? tracks[currentIndex].imageSource
-      : imageSource;
-    // console.log("tracks[currentIndex] render :>> ", tracks[currentIndex]);
-    // console.log("uriImageSource render :>> ", uriImageSource);
-    let trackTitle = tracks[currentIndex]
-      ? tracks[currentIndex].title
-      : titleSource;
-
-    let trackAuthor = tracks[currentIndex]
-      ? tracks[currentIndex].author
-      : authorSource;
-
-    return (
-      <View style={styles.container}>
-        <Image
-          style={styles.albumCover}
-          source={{
-            uri: uriImageSource,
-          }}
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity
+        onPress={() => {
+          handlePreviousTrack(
+            playbackInstance,
+            currentIndex,
+            tracks,
+            isPlaying
+          );
+        }}
+      >
+        <MaterialIcons
+          name="skip-previous"
+          size={38}
+          style={styles.materialPicture}
         />
-
-        <TouchableOpacity
-          onPress={() => {
-            this.handlePreviousTrack(amountOfTracks);
-          }}
-        >
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          handlePlayPause(playbackInstance, isPlaying);
+        }}
+      >
+        {isPlaying ? (
           <MaterialIcons
-            name="skip-previous"
+            name="pause-circle-filled"
             size={38}
             style={styles.materialPicture}
           />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.handlePlayPause}>
-          {isPlaying ? (
-            <MaterialIcons
-              name="pause-circle-filled"
-              size={38}
-              style={styles.materialPicture}
-            />
-          ) : (
-            <MaterialIcons
-              name="play-circle-filled"
-              size={38}
-              style={styles.materialPicture}
-            />
-          )}
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            this.handleNextTrack(amountOfTracks);
-          }}
-        >
+        ) : (
           <MaterialIcons
-            name="skip-next"
+            name="play-circle-filled"
             size={38}
             style={styles.materialPicture}
           />
-        </TouchableOpacity>
-        <View style={styles.textInfo}>
-          <Text>{trackTitle}</Text>
-          <Text>{trackAuthor}</Text>
-        </View>
+        )}
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          handleNextTrack(playbackInstance, currentIndex, tracks, isPlaying);
+        }}
+      >
+        <MaterialIcons
+          name="skip-next"
+          size={38}
+          style={styles.materialPicture}
+        />
+      </TouchableOpacity>
+      <Image
+        style={styles.albumCover}
+        source={{
+          uri: imageSource,
+        }}
+      />
+      <View style={styles.textInfo}>
+        <Text style={styles.titleText}>{title}</Text>
+        <Text>{author}</Text>
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   materialPicture: {
@@ -233,9 +190,29 @@ const styles = StyleSheet.create({
     height: 50,
   },
   textInfo: {
+    flex: 1,
     flexDirection: "column",
     alignItems: "center",
+    justifyContent: "center",
+  },
+  titleText: {
+    overflow: "hidden",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 
-export default Controls;
+const mapActionsToProps = {
+  loadAudio,
+  handlePlayPauseAction,
+  handleChangeTrackAction,
+};
+
+const mapStateToProps = (state) => ({
+  playbackInstance: state.playbackInstance,
+  currentIndex: state.currentIndex,
+  isPlaying: state.isPlaying,
+  tracks: state.tracks,
+});
+
+export default connect(mapStateToProps, mapActionsToProps)(Controls);
