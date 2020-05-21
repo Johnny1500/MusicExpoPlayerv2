@@ -7,6 +7,7 @@ import {
   SET_PLAY,
   SET_CURRENT_INDEX,
   SET_CURRENT_TRACK,
+  SET_CURRENT_POSITIION,
 } from "./types";
 
 export default function (state, action) {
@@ -54,8 +55,12 @@ export default function (state, action) {
         ...state,
         currentTrack: action.payload,
       };
+    case SET_CURRENT_POSITIION:
+      return {
+        ...state,
+        currentPosition: action.payload,
+      }
     default:
-      // throw new Error(`Not supported action ${action.type}`);
-    return state;
+      return state;
   }
 }

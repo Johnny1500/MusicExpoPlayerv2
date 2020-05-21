@@ -16,6 +16,7 @@ const initialState = {
       "https://ia803008.us.archive.org/3/items/a_day_with_great_poets_1308_librivox/a_day_with_great_poets_01_byron_128kb.mp3",
   },
   currentIndex: 0,
+  currentPosition: 0,
   loading: true,
   loadingPlaybackInstance: false,
   isPlaying: false,

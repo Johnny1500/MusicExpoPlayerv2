@@ -10,7 +10,7 @@ import { setTracks } from "../redux/mediaActions";
 // import Controls from "./Controls";
 import Controls from "./Controls";
 
-const Home = ({ loading, tracks, setTracks }) => {
+const Player = ({ loading, tracks, setTracks }) => {
   React.useEffect(() => {
     async function fetchData() {
       try {
@@ -75,4 +75,4 @@ const mapStateToProps = (state) => ({
   tracks: state.tracks,
 });
 
-export default connect(mapStateToProps, { setTracks })(Home);
+export default connect(mapStateToProps, { setTracks })(Player);
