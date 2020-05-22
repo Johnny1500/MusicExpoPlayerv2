@@ -6,7 +6,6 @@ import {
   SET_PLAYBACKINSTANCE,
   SET_PLAY,
   SET_CURRENT_INDEX,
-  SET_CURRENT_TRACK,
   SET_CURRENT_POSITIION,
 } from "./types";
 import { Audio } from "expo-av";
@@ -78,17 +77,17 @@ export const handlePlayPauseAction = (isPlaying) => (dispatch) => {
   console.log("mediaActions handlePlayPauseAction isPlaying :>> ", !isPlaying);
 };
 
-export const handleChangeTrackAction = (currentIndex, tracks) => (dispatch) => {
+export const handleChangeTrackAction = (currentIndex) => (dispatch) => {
   dispatch({ type: SET_CURRENT_INDEX, payload: currentIndex });
   console.log(
     "mediaActions handleChangeTrackAction currentIndex :>> ",
     currentIndex
   );
-  dispatch({ type: SET_CURRENT_TRACK, payload: tracks[currentIndex] });
-  console.log(
-    "mediaActions handleChangeTrackAction currentTrack :>> ",
-    tracks[currentIndex]
-  );
+  // dispatch({ type: SET_CURRENT_TRACK, payload: tracks[currentIndex] });
+  // console.log(
+  //   "mediaActions handleChangeTrackAction currentTrack :>> ",
+  //   tracks[currentIndex]
+  // );
 };
 
 export const handleSliderSeek = (value) => (dispatch) => {

@@ -53,7 +53,7 @@ const Controls = ({
           ? (currentIndex -= 1)
           : (currentIndex = amountOfTracks - 1);
 
-        handleChangeTrackAction(currentIndex, tracks);
+        handleChangeTrackAction(currentIndex);
 
         const { uri } = tracks[currentIndex];
         console.log(
@@ -86,7 +86,7 @@ const Controls = ({
         currentIndex < amountOfTracks - 1
           ? (currentIndex += 1)
           : (currentIndex = 0);
-        handleChangeTrackAction(currentIndex, tracks);
+        handleChangeTrackAction(currentIndex);
 
         const { uri } = tracks[currentIndex];
         console.log(

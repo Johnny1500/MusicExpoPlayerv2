@@ -6,7 +6,6 @@ import {
   SET_PLAYBACKINSTANCE,
   SET_PLAY,
   SET_CURRENT_INDEX,
-  SET_CURRENT_TRACK,
   SET_CURRENT_POSITIION,
 } from "./types";
 
@@ -50,11 +49,11 @@ export default function (state, action) {
         ...state,
         currentIndex: action.payload,
       };
-    case SET_CURRENT_TRACK:
-      return {
-        ...state,
-        currentTrack: action.payload,
-      };
+    // case SET_CURRENT_TRACK:
+    //   return {
+    //     ...state,
+    //     currentTrack: action.payload,
+    //   };
     case SET_CURRENT_POSITIION:
       return {
         ...state,
