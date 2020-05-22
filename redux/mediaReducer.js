@@ -49,16 +49,11 @@ export default function (state, action) {
         ...state,
         currentIndex: action.payload,
       };
-    // case SET_CURRENT_TRACK:
-    //   return {
-    //     ...state,
-    //     currentTrack: action.payload,
-    //   };
     case SET_CURRENT_POSITIION:
       return {
         ...state,
         currentPosition: action.payload,
-      }
+      };
     default:
       return state;
   }
