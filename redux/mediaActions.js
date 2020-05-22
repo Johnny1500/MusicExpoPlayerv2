@@ -83,11 +83,6 @@ export const handleChangeTrackAction = (currentIndex) => (dispatch) => {
     "mediaActions handleChangeTrackAction currentIndex :>> ",
     currentIndex
   );
-  // dispatch({ type: SET_CURRENT_TRACK, payload: tracks[currentIndex] });
-  // console.log(
-  //   "mediaActions handleChangeTrackAction currentTrack :>> ",
-  //   tracks[currentIndex]
-  // );
 };
 
 export const handleSliderSeek = (value) => (dispatch) => {
