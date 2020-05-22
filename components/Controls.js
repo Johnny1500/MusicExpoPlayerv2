@@ -31,19 +31,14 @@ const Controls = ({
   const { imageSource, author, title } = tracks[currentIndex];
   console.log("Controls2 imageSource :>> ", imageSource);
 
-  handlePlayPause = async (playbackInstance, isPlaying) => {
+  handlePlayPause = async () => {
     isPlaying
       ? await playbackInstance.pauseAsync()
       : await playbackInstance.playAsync();
     handlePlayPauseAction(isPlaying);
   };
 
-  handlePreviousTrack = async (
-    playbackInstance,
-    currentIndex,
-    tracks,
-    isPlaying
-  ) => {
+  handlePreviousTrack = async () => {
     const amountOfTracks = tracks.length;
     console.log(
       "Controls2 handlePreviousTrack amountOfTracks :>> ",
@@ -77,12 +72,7 @@ const Controls = ({
     }
   };
 
-  handleNextTrack = async (
-    playbackInstance,
-    currentIndex,
-    tracks,
-    isPlaying
-  ) => {
+  handleNextTrack = async () => {
     const amountOfTracks = tracks.length;
     console.log(
       "Controls2 handleNextTrack amountOfTracks :>> ",
@@ -117,14 +107,7 @@ const Controls = ({
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        onPress={() => {
-          handlePreviousTrack(
-            playbackInstance,
-            currentIndex,
-            tracks,
-            isPlaying
-          );
-        }}
+        onPress={handlePreviousTrack}
       >
         <MaterialIcons
           name="skip-previous"
@@ -133,9 +116,7 @@ const Controls = ({
         />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => {
-          handlePlayPause(playbackInstance, isPlaying);
-        }}
+        onPress={handlePlayPause}
       >
         {isPlaying ? (
           <MaterialIcons
@@ -152,9 +133,7 @@ const Controls = ({
         )}
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => {
-          handleNextTrack(playbackInstance, currentIndex, tracks, isPlaying);
-        }}
+        onPress={handleNextTrack}
       >
         <MaterialIcons
           name="skip-next"
