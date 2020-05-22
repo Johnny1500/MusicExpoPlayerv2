@@ -4,7 +4,7 @@ import { Platform, StyleSheet, Text, View } from "react-native";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
-import Player from "./components/Player";
+import Home from "./components/Home";
 
 export default function App() {
   
@@ -12,7 +12,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <Player />
+      <Home />
     </Provider>
   );
 }

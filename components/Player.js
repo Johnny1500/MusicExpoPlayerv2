@@ -1,66 +1,58 @@
 import * as React from "react";
-import {  ActivityIndicator, StyleSheet, View, Text } from "react-native";
+import { ActivityIndicator, StyleSheet, View, Text, Image } from "react-native";
 import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 import { Audio } from "expo-av";
 
 // Redux stuff
 import { connect } from "react-redux";
-import { setTracks } from "../redux/mediaActions";
 
 // import Controls from "./Controls";
 import Controls from "./Controls";
 
-const Player = ({ loading, tracks, setTracks }) => {
-  React.useEffect(() => {
-    async function fetchData() {
-      try {
-        {
-          await Audio.setAudioModeAsync({
-            interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-            interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-          });
+const Player = ({ tracks, currentIndex }) => {
+  const { imageSource, album, title, author } = tracks[currentIndex];
 
-          setTracks();
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-
-    fetchData();
-  }, []);
-
-  let markup = !loading ? (
+  return (
     <View>
+      <Text style={styles.albumTitle}>{album}</Text>
+      <View style={styles.albumContainer}>
+        <Image
+           style={styles.albumCover}
+          source={{
+            uri: imageSource,
+          }}
+        />
+      </View>
+      <View style={styles.textInfo}>
+        <Text style={styles.trackTitle}>{title}</Text>
+        <Text>{author}</Text>
+      </View>
       <View style={styles.lineStyle} />
-      <Controls tracks={tracks} />
-    </View>
-  ) : (
-    <View>
-    <ActivityIndicator size="large" color="#2f712f" />
-    <Text>Loading...</Text>
+      <View style={styles.containerControl} >
+        <Controls/>
+      </View>
     </View>
   );
-
-  return <View style={loading ? styles.containerLoading : styles.containerControl}>{markup}</View>;
 };
 
 const styles = StyleSheet.create({
-    
-  containerLoading: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
+  container: {
+    // flex:1,
+    justifyContent: 'center',
+    // justifyContent: "center",
+    // alignItems: "center",
+  },
+
+  albumTitle: {
+    marginTop: vh(10),
+    marginBottom: vh(5),
+    fontWeight: "bold",
+    textAlign: "center",
   },
 
   containerControl: {
     flex: 1,
-    justifyContent: "flex-end",
-  },
-
-  loadingText: {
-    height: vh(25),
-    fontWeight: "bold",
+    // justifyContent: "flex-end",
   },
 
   lineStyle: {
@@ -68,11 +60,31 @@ const styles = StyleSheet.create({
     borderColor: "#2f712f",
     marginHorizontal: vw(2),
   },
+
+  albumCover: {
+    width: vw(70),
+    height: vh(37.5),
+},
+
+albumContainer: {
+    alignItems: "center",
+},
+
+  textInfo: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  trackTitle: {
+    marginTop: vh(5),
+    fontWeight: "bold",
+  },
 });
 
 const mapStateToProps = (state) => ({
   loading: state.loading,
   tracks: state.tracks,
+  currentIndex: state.currentIndex,
 });
 
-export default connect(mapStateToProps, { setTracks })(Player);
+export default connect(mapStateToProps)(Player);
