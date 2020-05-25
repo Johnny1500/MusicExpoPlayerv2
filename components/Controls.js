@@ -23,13 +23,13 @@ const Controls = ({
   React.useEffect(() => {
     // console.log("Controls2 useEffect tracks :>> ", tracks);
     const { uri } = tracks[currentIndex];
-    console.log("Controls2 useEffect uri :>> ", uri);
-    console.log("Controls2 useEffectisPlaying :>> ", isPlaying);
+    // console.log("Controls2 useEffect uri :>> ", uri);
+    // console.log("Controls2 useEffectisPlaying :>> ", isPlaying);
     loadAudio(uri, isPlaying);
   }, []);
 
-  const { imageSource, author, title } = tracks[currentIndex];
-  console.log("Controls2 imageSource :>> ", imageSource);
+  // const { imageSource, author, title } = tracks[currentIndex];
+  // console.log("Controls2 imageSource :>> ", imageSource);
 
   const handlePlayPause = async () => {
     isPlaying
@@ -40,10 +40,10 @@ const Controls = ({
 
   const handlePreviousTrack = async () => {
     const amountOfTracks = tracks.length;
-    console.log(
-      "Controls2 handlePreviousTrack amountOfTracks :>> ",
-      amountOfTracks
-    );
+    // console.log(
+    //   "Controls2 handlePreviousTrack amountOfTracks :>> ",
+    //   amountOfTracks
+    // );
 
     try {
       if (playbackInstance) {
@@ -56,17 +56,17 @@ const Controls = ({
         handleChangeTrackAction(currentIndex);
 
         const { uri } = tracks[currentIndex];
-        console.log(
-          "Controls2 handlePreviousTrack tracks[currentIndex].uri :>> ",
-          uri
-        );
-        console.log(
-          "Controls2 handlePreviousTrack tracks[currentIndex].isPlaying :>> ",
-          isPlaying
-        );
+        // console.log(
+        //   "Controls2 handlePreviousTrack tracks[currentIndex].uri :>> ",
+        //   uri
+        // );
+        // console.log(
+        //   "Controls2 handlePreviousTrack tracks[currentIndex].isPlaying :>> ",
+        //   isPlaying
+        // );
 
         loadAudio(uri, isPlaying);
-        console.log('window.loadAudio :>> ', window.loadAudio);
+        // console.log("window.loadAudio :>> ", window.loadAudio);
       }
     } catch (e) {
       console.log(e);
@@ -75,10 +75,10 @@ const Controls = ({
 
   const handleNextTrack = async () => {
     const amountOfTracks = tracks.length;
-    console.log(
-      "Controls2 handleNextTrack amountOfTracks :>> ",
-      amountOfTracks
-    );
+    // console.log(
+    //   "Controls2 handleNextTrack amountOfTracks :>> ",
+    //   amountOfTracks
+    // );
 
     try {
       if (playbackInstance) {
@@ -89,14 +89,14 @@ const Controls = ({
         handleChangeTrackAction(currentIndex);
 
         const { uri } = tracks[currentIndex];
-        console.log(
-          "Controls2 handleNextTrack tracks[currentIndex].uri :>> ",
-          uri
-        );
-        console.log(
-          "Controls2 handleNextTrack tracks[currentIndex].isPlaying :>> ",
-          isPlaying
-        );
+        // console.log(
+        //   "Controls2 handleNextTrack tracks[currentIndex].uri :>> ",
+        //   uri
+        // );
+        // console.log(
+        //   "Controls2 handleNextTrack tracks[currentIndex].isPlaying :>> ",
+        //   isPlaying
+        // );
 
         loadAudio(uri, isPlaying);
       }
@@ -110,21 +110,21 @@ const Controls = ({
       <TouchableOpacity onPress={handlePreviousTrack}>
         <MaterialIcons
           name="skip-previous"
-          size={vh(5.8)}
-          style={styles.materialPicture}
+          size={vh(10)}
+          style={[styles.materialPicture, styles.previous]}
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={handlePlayPause}>
         {isPlaying ? (
           <MaterialIcons
             name="pause-circle-filled"
-            size={vh(5.8)}
+            size={vh(10)}
             style={styles.materialPicture}
           />
         ) : (
           <MaterialIcons
             name="play-circle-filled"
-            size={vh(5.8)}
+            size={vh(10)}
             style={styles.materialPicture}
           />
         )}
@@ -132,20 +132,10 @@ const Controls = ({
       <TouchableOpacity onPress={handleNextTrack}>
         <MaterialIcons
           name="skip-next"
-          size={vh(5.8)}
-          style={styles.materialPicture}
+          size={vh(10)}
+          style={[styles.materialPicture, styles.next]}
         />
       </TouchableOpacity>
-      <Image
-        style={styles.albumCover}
-        source={{
-          uri: imageSource,
-        }}
-      />
-      <View style={styles.textInfo}>
-        <Text style={styles.titleText}>{title}</Text>
-        <Text>{author}</Text>
-      </View>
     </View>
   );
 };
@@ -153,28 +143,23 @@ const Controls = ({
 const styles = StyleSheet.create({
   materialPicture: {
     color: "#2f712f",
-  },
+     },
   container: {
     flexDirection: "row",
     height: vh(9),
-    margin: vh(1.5),
+    marginTop: vh(1.5),
     alignItems: "center",
+    justifyContent: "center"
   },
-  albumCover: {
-    width: vw(14),
-    height: vh(7.5),
+  
+  previous: {
+    marginRight: vh(3)
   },
-  textInfo: {
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  titleText: {
-    overflow: "hidden",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
+
+  next: {
+    marginLeft: vh(3)
+  }
+
 });
 
 const mapActionsToProps = {

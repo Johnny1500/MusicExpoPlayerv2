@@ -31,9 +31,7 @@ const Home = ({ loading, setTracks }) => {
   }, []);
 
   let markup = !loading ? (
-    <View>
-      <Player />
-    </View>
+    <Player />
   ) : (
     <View>
       <ActivityIndicator size="large" color="#2f712f" />
@@ -58,17 +56,6 @@ const styles = StyleSheet.create({
   containerControl: {
     flex: 1,
     justifyContent: "center",
-  },
-
-  loadingText: {
-    height: vh(25),
-    fontWeight: "bold",
-  },
-
-  lineStyle: {
-    borderWidth: 1,
-    borderColor: "#2f712f",
-    marginHorizontal: vw(2),
   },
 });
 
