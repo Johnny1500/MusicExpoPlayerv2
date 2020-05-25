@@ -7,6 +7,7 @@ import {
   SET_PLAY,
   SET_CURRENT_INDEX,
   SET_CURRENT_POSITIION,
+  SET_PHONE_ORIENTATION
 } from "./types";
 
 export default function (state, action) {
@@ -54,6 +55,11 @@ export default function (state, action) {
         ...state,
         currentPosition: action.payload,
       };
+    case SET_PHONE_ORIENTATION:
+      return {
+        ...state,
+        phoneOrientation: action.payload
+      }
     default:
       return state;
   }

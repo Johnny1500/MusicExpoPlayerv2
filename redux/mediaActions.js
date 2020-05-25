@@ -7,6 +7,7 @@ import {
   SET_PLAY,
   SET_CURRENT_INDEX,
   SET_CURRENT_POSITIION,
+  SET_PHONE_ORIENTATION
 } from "./types";
 import { Audio } from "expo-av";
 import axios from "axios";
@@ -89,3 +90,8 @@ export const handleSliderSeek = (value) => (dispatch) => {
   dispatch({ type: SET_CURRENT_POSITIION, payload: value });
   console.log("mediaActions onSeek currentPosition :>> ", value);
 };
+
+export const setPhoneOrientation = (value) => (dispatch) => {
+  dispatch({ type: SET_PHONE_ORIENTATION, payload: value });
+  console.log('mediaActions setPhoneOrientation phoneOrientation :>> ', value);
+}

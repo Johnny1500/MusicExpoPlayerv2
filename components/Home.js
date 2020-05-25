@@ -2,18 +2,16 @@ import * as React from "react";
 import { ActivityIndicator, StyleSheet, View, Text } from "react-native";
 import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 import { Audio } from "expo-av";
-// import { ScreenOrientation } from 'expo-screen-orientation';
-// import { ScreenOrientation } from 'expo';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
 // Redux stuff
 import { connect } from "react-redux";
-import { setTracks } from "../redux/mediaActions";
+import { setTracks, setPhoneOrientation } from "../redux/mediaActions";
 
 // import Controls from "./Controls";
 import Player from "./Player";
 
-const Home = ({ loading, setTracks }) => {
+const Home = ({ loading, setTracks, setPhoneOrientation }) => {
   React.useEffect(() => {
     async function fetchData() {
       try {
@@ -37,6 +35,7 @@ const Home = ({ loading, setTracks }) => {
     ScreenOrientation.addOrientationChangeListener(async () => {
       let orientation = await ScreenOrientation.getOrientationAsync();
       console.log('Home orientation :>> ', orientation);
+      setPhoneOrientation(orientation);
     })
 
   }, []);
@@ -70,9 +69,14 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapActionsToProps = {
+  setTracks,
+  setPhoneOrientation
+};
+
 const mapStateToProps = (state) => ({
   loading: state.loading,
   tracks: state.tracks,
 });
 
-export default connect(mapStateToProps, { setTracks })(Home);
+export default connect(mapStateToProps, mapActionsToProps)(Home);
