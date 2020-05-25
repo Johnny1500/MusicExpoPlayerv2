@@ -1,8 +1,6 @@
 import * as React from "react";
-import { ActivityIndicator, StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
 import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
-import { Audio } from "expo-av";
-import { ScreenOrientation } from 'expo';
 
 // Redux stuff
 import { connect } from "react-redux";

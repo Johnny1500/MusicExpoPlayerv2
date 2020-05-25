@@ -2,6 +2,9 @@ import * as React from "react";
 import { ActivityIndicator, StyleSheet, View, Text } from "react-native";
 import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 import { Audio } from "expo-av";
+// import { ScreenOrientation } from 'expo-screen-orientation';
+// import { ScreenOrientation } from 'expo';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 // Redux stuff
 import { connect } from "react-redux";
@@ -28,6 +31,14 @@ const Home = ({ loading, setTracks }) => {
     }
 
     fetchData();
+
+    // console.log('Home ScreenOrientation :>> ', ScreenOrientation);
+
+    ScreenOrientation.addOrientationChangeListener(async () => {
+      let orientation = await ScreenOrientation.getOrientationAsync();
+      console.log('Home orientation :>> ', orientation);
+    })
+
   }, []);
 
   let markup = !loading ? (
