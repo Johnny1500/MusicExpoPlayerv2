@@ -1,6 +1,7 @@
 import * as React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { SimpleLineIcons } from '@expo/vector-icons';
 import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 
 // Redux stuff
@@ -107,6 +108,13 @@ const Controls = ({
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => alert('')}>
+        <SimpleLineIcons
+          name="shuffle"
+          size={vmax(5)}
+          style={[styles.materialPicture, styles.previous]}
+        />
+      </TouchableOpacity>
       <TouchableOpacity onPress={handlePreviousTrack}>
         <MaterialIcons
           name="skip-previous"
@@ -136,6 +144,13 @@ const Controls = ({
           style={[styles.materialPicture, styles.next]}
         />
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => alert('')}>
+        <SimpleLineIcons
+          name="loop"
+          size={vmax(5)}
+          style={[styles.materialPicture, styles.next]}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -153,11 +168,11 @@ const styles = StyleSheet.create({
   },
   
   previous: {
-    marginRight: vmax(3)
+    marginRight: vmax(1)
   },
 
   next: {
-    marginLeft: vmax(3)
+    marginLeft: vmax(1)
   }
 
 });
