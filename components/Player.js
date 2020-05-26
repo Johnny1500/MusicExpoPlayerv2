@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
 
   albumTitle: {
-    marginBottom: vh(3),
+    marginBottom: vmax(3),
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 18,
@@ -74,12 +74,12 @@ const styles = StyleSheet.create({
   lineStyle: {
     borderWidth: 1,
     borderColor: "#2f712f",
-    marginTop: vw(8),
+    marginTop: vmax(4),
   },
 
   albumCover: {
-    width: vw(84),
-    height: vh(50),
+    width: vmax(50),
+    height: vmax(50),
   },
 
   albumContainer: {
@@ -87,8 +87,8 @@ const styles = StyleSheet.create({
   },
 
   albumCoverLandscape: {
-    width: vw(56),
-    height: vh(34),
+    width: vmax(34),
+    height: vmax(34),
   },
 
   textInfo: {
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
 
   trackTitle: {
-    marginTop: vh(5),
+    marginTop: vmax(5),
     fontWeight: "bold",
     fontSize: 20,
   },
