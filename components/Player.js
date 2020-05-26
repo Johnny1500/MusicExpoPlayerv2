@@ -8,18 +8,28 @@ import { connect } from "react-redux";
 // import Controls from "./Controls";
 import Controls from "./Controls";
 
-const Player = ({ tracks, currentIndex }) => {
+const Player = ({ tracks, currentIndex, phoneOrientation }) => {
   const { imageSource, album, title, author } = tracks[currentIndex];
-  // let screenOrientation = ScreenOrientation.ScreenOrientationInfo;
+  
   // console.log('Player screenOrientation :>> ', screenOrientation);
 
   return (
-    <View>
+    <View
+      style={
+        phoneOrientation == 1 || phoneOrientation == 2
+          ? styles.container
+          : styles.containerLandscape
+      }
+    >
       <View>
         <Text style={styles.albumTitle}>{album}</Text>
         <View style={styles.albumContainer}>
           <Image
-            style={styles.albumCover}
+            style={
+              phoneOrientation == 1 || phoneOrientation == 2
+                ? styles.albumCover
+                : styles.albumCoverLandscape
+            }
             source={{
               uri: imageSource,
             }}
@@ -42,14 +52,15 @@ const Player = ({ tracks, currentIndex }) => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex:1,
     justifyContent: "center",
-    // justifyContent: "center",
-    // alignItems: "center",
+  },
+
+  containerLandscape: {
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
 
   albumTitle: {
-    // marginTop: vh(10),
     marginBottom: vh(3),
     fontWeight: "bold",
     textAlign: "center",
@@ -58,7 +69,6 @@ const styles = StyleSheet.create({
 
   containerControl: {
     flex: 1,
-    // justifyContent: "flex-end",
   },
 
   lineStyle: {
@@ -74,6 +84,11 @@ const styles = StyleSheet.create({
 
   albumContainer: {
     alignItems: "center",
+  },
+
+  albumCoverLandscape: {
+    width: vw(56),
+    height: vh(34),
   },
 
   textInfo: {
@@ -96,6 +111,7 @@ const mapStateToProps = (state) => ({
   loading: state.loading,
   tracks: state.tracks,
   currentIndex: state.currentIndex,
+  phoneOrientation: state.phoneOrientation,
 });
 
 export default connect(mapStateToProps)(Player);

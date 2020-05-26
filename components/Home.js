@@ -34,7 +34,7 @@ const Home = ({ loading, setTracks, setPhoneOrientation }) => {
 
     ScreenOrientation.addOrientationChangeListener(async () => {
       let orientation = await ScreenOrientation.getOrientationAsync();
-      console.log('Home orientation :>> ', orientation);
+      // console.log('Home orientation :>> ', orientation);
       setPhoneOrientation(orientation);
     })
 
