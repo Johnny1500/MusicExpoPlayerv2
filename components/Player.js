@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
   },
 
   albumCover: {
-    width: vmax(50),
-    height: vmax(50),
+    width: vmax(52),
+    height: vmax(52),
   },
 
   albumContainer: {

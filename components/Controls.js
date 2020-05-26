@@ -110,7 +110,7 @@ const Controls = ({
       <TouchableOpacity onPress={handlePreviousTrack}>
         <MaterialIcons
           name="skip-previous"
-          size={vh(10)}
+          size={vmax(10)}
           style={[styles.materialPicture, styles.previous]}
         />
       </TouchableOpacity>
@@ -118,13 +118,13 @@ const Controls = ({
         {isPlaying ? (
           <MaterialIcons
             name="pause-circle-filled"
-            size={vh(10)}
+            size={vmax(10)}
             style={styles.materialPicture}
           />
         ) : (
           <MaterialIcons
             name="play-circle-filled"
-            size={vh(10)}
+            size={vmax(10)}
             style={styles.materialPicture}
           />
         )}
@@ -132,7 +132,7 @@ const Controls = ({
       <TouchableOpacity onPress={handleNextTrack}>
         <MaterialIcons
           name="skip-next"
-          size={vh(10)}
+          size={vmax(10)}
           style={[styles.materialPicture, styles.next]}
         />
       </TouchableOpacity>
@@ -146,18 +146,18 @@ const styles = StyleSheet.create({
      },
   container: {
     flexDirection: "row",
-    height: vh(9),
-    marginTop: vh(1.5),
+    height: vmax(9),
+    marginTop: vmax(1.5),
     alignItems: "center",
     justifyContent: "center"
   },
   
   previous: {
-    marginRight: vh(3)
+    marginRight: vmax(3)
   },
 
   next: {
-    marginLeft: vh(3)
+    marginLeft: vmax(3)
   }
 
 });
