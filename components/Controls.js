@@ -1,7 +1,7 @@
 import * as React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { SimpleLineIcons } from '@expo/vector-icons';
+import { SimpleLineIcons } from "@expo/vector-icons";
 import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 
 // Redux stuff
@@ -10,6 +10,7 @@ import {
   loadAudio,
   handlePlayPauseAction,
   handleChangeTrackAction,
+  shuffleTracks,
 } from "../redux/mediaActions";
 
 const Controls = ({
@@ -20,6 +21,7 @@ const Controls = ({
   loadAudio,
   handlePlayPauseAction,
   handleChangeTrackAction,
+  shuffleTracks,
 }) => {
   React.useEffect(() => {
     // console.log("Controls2 useEffect tracks :>> ", tracks);
@@ -106,9 +108,22 @@ const Controls = ({
     }
   };
 
+  const handleShuffleTracks = (tracks) => {
+    for (let i = tracks.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [tracks[i], tracks[j]] = [tracks[j], tracks[i]];
+    }
+    shuffleTracks(tracks);
+  };
+
+  const handleReverseTracks = (tracks) => {
+    tracks.reverse();
+    shuffleTracks(tracks);
+  };
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => alert('')}>
+      <TouchableOpacity onPress={() => handleShuffleTracks(tracks)}>
         <SimpleLineIcons
           name="shuffle"
           size={vmax(5)}
@@ -144,7 +159,7 @@ const Controls = ({
           style={[styles.materialPicture, styles.next]}
         />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => alert('')}>
+      <TouchableOpacity onPress={() => handleReverseTracks(tracks)}>
         <SimpleLineIcons
           name="loop"
           size={vmax(5)}
@@ -158,29 +173,29 @@ const Controls = ({
 const styles = StyleSheet.create({
   materialPicture: {
     color: "#2f712f",
-     },
+  },
   container: {
     flexDirection: "row",
     height: vmax(9),
     marginTop: vmax(1.5),
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
-  
+
   previous: {
-    marginRight: vmax(1)
+    marginRight: vmax(1),
   },
 
   next: {
-    marginLeft: vmax(1)
-  }
-
+    marginLeft: vmax(1),
+  },
 });
 
 const mapActionsToProps = {
   loadAudio,
   handlePlayPauseAction,
   handleChangeTrackAction,
+  shuffleTracks,
 };
 
 const mapStateToProps = (state) => ({

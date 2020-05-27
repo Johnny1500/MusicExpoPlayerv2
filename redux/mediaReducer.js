@@ -7,7 +7,8 @@ import {
   SET_PLAY,
   SET_CURRENT_INDEX,
   SET_CURRENT_POSITIION,
-  SET_PHONE_ORIENTATION
+  SET_PHONE_ORIENTATION,
+  SHUFFLE_TRACKS,
 } from "./types";
 
 export default function (state, action) {
@@ -58,8 +59,13 @@ export default function (state, action) {
     case SET_PHONE_ORIENTATION:
       return {
         ...state,
-        phoneOrientation: action.payload
-      }
+        phoneOrientation: action.payload,
+      };
+    case SHUFFLE_TRACKS:
+      return {
+        ...state,
+        tracks: action.payload,
+      };
     default:
       return state;
   }

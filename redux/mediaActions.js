@@ -7,7 +7,8 @@ import {
   SET_PLAY,
   SET_CURRENT_INDEX,
   SET_CURRENT_POSITIION,
-  SET_PHONE_ORIENTATION
+  SET_PHONE_ORIENTATION,
+  SHUFFLE_TRACKS,
 } from "./types";
 import { Audio } from "expo-av";
 import axios from "axios";
@@ -93,5 +94,10 @@ export const handleSliderSeek = (value) => (dispatch) => {
 
 export const setPhoneOrientation = (value) => (dispatch) => {
   dispatch({ type: SET_PHONE_ORIENTATION, payload: value });
-  console.log('mediaActions setPhoneOrientation phoneOrientation :>> ', value);
-}
+  console.log("mediaActions setPhoneOrientation phoneOrientation :>> ", value);
+};
+
+export const shuffleTracks = (value) => (dispatch) => {
+  dispatch({ type: SHUFFLE_TRACKS, payload: value });
+  console.log("mediaActions shuffleTracks :>> ", value);
+};
