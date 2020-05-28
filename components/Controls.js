@@ -108,22 +108,44 @@ const Controls = ({
     }
   };
 
-  const handleShuffleTracks = (tracks) => {
-    for (let i = tracks.length - 1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i + 1));
-      [tracks[i], tracks[j]] = [tracks[j], tracks[i]];
+  const handleShuffleTracks = async () => {
+    
+    const amountOfTracks = tracks.length;
+    
+    try {
+      if (playbackInstance) {
+        await playbackInstance.unloadAsync();
+        for (let i = tracks.length - 1; i > 0; i--) {
+          let j = Math.floor(Math.random() * (i + 1));
+          [tracks[i], tracks[j]] = [tracks[j], tracks[i]];
+        }
+        shuffleTracks(tracks);
+        // currentIndex += 1;
+        // console.log('Controls currentIndex handleShuffleTracks:>> ', currentIndex);
+        currentIndex < amountOfTracks - 1
+          ? (currentIndex += 1)
+          : (currentIndex = 0);
+        handleChangeTrackAction(currentIndex);
+        const { uri } = tracks[currentIndex];
+        console.log(
+          "Controls handleShuffleTracks tracks[currentIndex] :>> ",
+          tracks[currentIndex]
+        );
+        loadAudio(uri, isPlaying);
+      }
+    } catch (e) {
+      console.log(e);
     }
-    shuffleTracks(tracks);
   };
 
-  const handleReverseTracks = (tracks) => {
+  const handleReverseTracks = () => {
     tracks.reverse();
     shuffleTracks(tracks);
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => handleShuffleTracks(tracks)}>
+      <TouchableOpacity onPress={handleShuffleTracks}>
         <SimpleLineIcons
           name="shuffle"
           size={vmax(5)}
@@ -159,7 +181,7 @@ const Controls = ({
           style={[styles.materialPicture, styles.next]}
         />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => handleReverseTracks(tracks)}>
+      <TouchableOpacity onPress={handleReverseTracks}>
         <SimpleLineIcons
           name="loop"
           size={vmax(5)}

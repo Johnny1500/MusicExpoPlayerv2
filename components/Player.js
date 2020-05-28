@@ -9,8 +9,13 @@ import { connect } from "react-redux";
 import Controls from "./Controls";
 
 const Player = ({ tracks, currentIndex, phoneOrientation }) => {
-  const { imageSource, album, title, author } = tracks[currentIndex];
   
+  // React.useEffect(()=>{
+  //   console.log('Player useEffect tracks[currentIndex] :>> ', tracks[currentIndex]);
+  // },[tracks])
+
+  const { imageSource, album, title, author } = tracks[currentIndex];
+    
   // console.log('Player screenOrientation :>> ', screenOrientation);
 
   return (

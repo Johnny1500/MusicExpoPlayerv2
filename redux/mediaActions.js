@@ -42,6 +42,7 @@ export const loadAudio = (uri, isPlaying) => async (dispatch) => {
   try {
     console.log("mediaActions loadAudio uri :>> ", uri);
     console.log("mediaActions loadAudio isPlaying :>> ", isPlaying);
+   
     dispatch({ type: LOADING_PLAYBACKINSTANCE });
 
     const playbackInstance = new Audio.Sound();
