@@ -5,18 +5,17 @@ import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 // Redux stuff
 import { connect } from "react-redux";
 
-// import Controls from "./Controls";
 import Controls from "./Controls";
+import Seekbar from "./Seekbar";
 
 const Player = ({ tracks, currentIndex, phoneOrientation, shuffledTimes }) => {
-  
   // React.useEffect(()=>{
   //   console.log('Player useEffect tracks[currentIndex] :>> ', tracks[currentIndex]);
   // },[tracks])
 
   const { imageSource, album, title, author } = tracks[currentIndex];
-  console.log('Player shuffledTimes :>> ', shuffledTimes);
-  
+  // console.log('Player shuffledTimes :>> ', shuffledTimes);
+
   // console.log('Player screenOrientation :>> ', screenOrientation);
 
   return (
@@ -47,8 +46,10 @@ const Player = ({ tracks, currentIndex, phoneOrientation, shuffledTimes }) => {
           <Text style={styles.trackTitle}>{title}</Text>
           <Text style={styles.authorTitle}>{author}</Text>
         </View>
-        <View style={styles.lineStyle} />
-        <View style={styles.containerControl}>
+        <View>
+            <Seekbar />
+        </View>
+        <View>
           <Controls />
         </View>
       </View>
@@ -117,7 +118,7 @@ const mapStateToProps = (state) => ({
   tracks: state.tracks,
   currentIndex: state.currentIndex,
   phoneOrientation: state.phoneOrientation,
-  shuffledTimes: state.shuffledTimes
+  shuffledTimes: state.shuffledTimes,
 });
 
 export default connect(mapStateToProps)(Player);

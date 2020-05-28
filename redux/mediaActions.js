@@ -77,15 +77,15 @@ export const loadAudio = (uri, isPlaying) => async (dispatch) => {
 
 export const handlePlayPauseAction = (isPlaying) => (dispatch) => {
   dispatch({ type: SET_PLAY, payload: !isPlaying });
-  console.log("mediaActions handlePlayPauseAction isPlaying :>> ", !isPlaying);
+  // console.log("mediaActions handlePlayPauseAction isPlaying :>> ", !isPlaying);
 };
 
 export const handleChangeTrackAction = (currentIndex) => (dispatch) => {
   dispatch({ type: SET_CURRENT_INDEX, payload: currentIndex });
-  console.log(
-    "mediaActions handleChangeTrackAction currentIndex :>> ",
-    currentIndex
-  );
+  // console.log(
+  //   "mediaActions handleChangeTrackAction currentIndex :>> ",
+  //   currentIndex
+  // );
 };
 
 export const handleSliderSeek = (value) => (dispatch) => {
@@ -95,7 +95,7 @@ export const handleSliderSeek = (value) => (dispatch) => {
 
 export const setPhoneOrientation = (value) => (dispatch) => {
   dispatch({ type: SET_PHONE_ORIENTATION, payload: value });
-  console.log("mediaActions setPhoneOrientation phoneOrientation :>> ", value);
+  // console.log("mediaActions setPhoneOrientation phoneOrientation :>> ", value);
 };
 
 export const shuffleTracks = (value) => (dispatch) => {

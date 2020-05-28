@@ -8,54 +8,56 @@ import { handleSliderSeek, handlePlayPauseAction } from "../redux/mediaActions";
 
 export const Seekbar = ({
   trackLength,
-  currentPosition = 0,
-  onSeek,
-  onSlidingStart,
-  isPlaying
+  currentPosition,
+  handleSliderSeek,
+  isPlaying,
+  playbackInstance
 }) => {
-  function _pad(n, width, z = 0) {
-    n = n + "";
-    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-  }
+  // function _pad(n, width, z = 0) {
+  //   n = n + "";
+  //   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+  // }
 
-  const minutesAndSeconds = (position) => [
-    _pad(Math.floor(position / 60), 2),
-    _pad(position % 60, 2),
-  ];
+  // const minutesAndSeconds = (position) => [
+  //   _pad(Math.floor(position / 60), 2),
+  //   _pad(position % 60, 2),
+  // ];
 
-  const elapsed = minutesAndSeconds(currentPosition);
-  console.log("Seekbar elapsed :>> ", elapsed);
-  const remaining = minutesAndSeconds(trackLength - currentPosition);
-  console.log("Seekbar remaining :>> ", remaining);
+  // const elapsed = minutesAndSeconds(currentPosition);
+  // console.log("Seekbar elapsed :>> ", elapsed);
+  // const remaining = minutesAndSeconds(trackLength - currentPosition);
+  // console.log("Seekbar remaining :>> ", remaining);
 
-  onSlidingStart = async () => {
-    if (isPlaying) {
-        await playbackInstance.pauseAsync();
-        handlePlayPauseAction(isPlaying); 
-    }
-  }
+  const onSlidingStart = async () => {
+    // if (isPlaying) {
+    //   await playbackInstance.pauseAsync();
+    //   handlePlayPauseAction(isPlaying);
+    //   console.log("Seekbar onSlidingStart Test");
+    // }
+  };
 
-  onSeek = async (value) => {
-    console.log("Seekbar onSeek Test");
-    const valueMillis = value * 1000;
-    console.log('Seekbar onSeek playbackInstance:>> ', playbackInstance);
-    await playbackInstance.playFromPositionAsync(valueMillis);
+  const onSeek = async () => {
+    // console.log("Seekbar onSeek Test");
+    // const valueMilliseconds = value * 1000;
+    // console.log("Seekbar onSeek valueMilliSeconds :>> ", valueMilliseconds);
+    // console.log("Seekbar onSeek playbackInstance:>> ", playbackInstance);
+    // await playbackInstance.playFromPositionAsync(valueMilliseconds);
+    // console.log("Seekbar onSeek value in seconds:>> ", value);
+    // handleSliderSeek(value);
   };
 
   return (
     <View>
       <View style={styles.durationInfo}>
-        <Text>{elapsed[0] + ":" + elapsed[1]}</Text>
+        {/* <Text>{elapsed[0] + ":" + elapsed[1]}</Text>
         <View style={styles.placeholder}></View>
         <Text>
           {trackLength > 1 && "-" + remaining[0] + ":" + remaining[1]}
-        </Text>
+        </Text> */}
       </View>
       <Slider
-        maximumValue={Math.max(trackLength, 1, currentPosition + 1)}
         onSlidingStart={onSlidingStart}
-        onSlidingComplete={onSeek(value)}
-        value={currentPosition}
+        onSlidingComplete={onSeek}
       />
     </View>
   );
@@ -72,7 +74,7 @@ const styles = StyleSheet.create({
 
 const mapActionsToProps = {
   handleSliderSeek,
-  handlePlayPauseAction
+  handlePlayPauseAction,
 };
 
 const mapStateToProps = (state) => ({
