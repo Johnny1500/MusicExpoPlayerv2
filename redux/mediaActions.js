@@ -100,5 +100,5 @@ export const setPhoneOrientation = (value) => (dispatch) => {
 
 export const shuffleTracks = (value) => (dispatch) => {
   dispatch({ type: SHUFFLE_TRACKS, payload: value });
-  console.log("mediaActions shuffleTracks :>> ", value);
+  // console.log("mediaActions shuffleTracks :>> ", value);
 };

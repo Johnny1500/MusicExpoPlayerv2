@@ -8,14 +8,15 @@ import { connect } from "react-redux";
 // import Controls from "./Controls";
 import Controls from "./Controls";
 
-const Player = ({ tracks, currentIndex, phoneOrientation }) => {
+const Player = ({ tracks, currentIndex, phoneOrientation, shuffledTimes }) => {
   
   // React.useEffect(()=>{
   //   console.log('Player useEffect tracks[currentIndex] :>> ', tracks[currentIndex]);
   // },[tracks])
 
   const { imageSource, album, title, author } = tracks[currentIndex];
-    
+  console.log('Player shuffledTimes :>> ', shuffledTimes);
+  
   // console.log('Player screenOrientation :>> ', screenOrientation);
 
   return (
@@ -113,10 +114,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  loading: state.loading,
   tracks: state.tracks,
   currentIndex: state.currentIndex,
   phoneOrientation: state.phoneOrientation,
+  shuffledTimes: state.shuffledTimes
 });
 
 export default connect(mapStateToProps)(Player);

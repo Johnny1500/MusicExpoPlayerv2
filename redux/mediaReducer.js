@@ -65,6 +65,7 @@ export default function (state, action) {
       return {
         ...state,
         tracks: action.payload,
+        shuffledTimes: state.shuffledTimes+1
       };
     default:
       return state;

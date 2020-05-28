@@ -109,9 +109,6 @@ const Controls = ({
   };
 
   const handleShuffleTracks = async () => {
-    
-    const amountOfTracks = tracks.length;
-    
     try {
       if (playbackInstance) {
         await playbackInstance.unloadAsync();
@@ -120,12 +117,6 @@ const Controls = ({
           [tracks[i], tracks[j]] = [tracks[j], tracks[i]];
         }
         shuffleTracks(tracks);
-        // currentIndex += 1;
-        // console.log('Controls currentIndex handleShuffleTracks:>> ', currentIndex);
-        currentIndex < amountOfTracks - 1
-          ? (currentIndex += 1)
-          : (currentIndex = 0);
-        handleChangeTrackAction(currentIndex);
         const { uri } = tracks[currentIndex];
         console.log(
           "Controls handleShuffleTracks tracks[currentIndex] :>> ",
@@ -138,9 +129,22 @@ const Controls = ({
     }
   };
 
-  const handleReverseTracks = () => {
-    tracks.reverse();
-    shuffleTracks(tracks);
+  const handleReverseTracks = async () => {
+    try {
+      if (playbackInstance) {
+        await playbackInstance.unloadAsync();
+        tracks.reverse();
+        shuffleTracks(tracks);
+        const { uri } = tracks[currentIndex];
+        console.log(
+          "Controls handleShuffleTracks tracks[currentIndex] :>> ",
+          tracks[currentIndex]
+        );
+        loadAudio(uri, isPlaying);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
