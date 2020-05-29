@@ -9,6 +9,7 @@ import {
   SET_CURRENT_POSITIION,
   SET_PHONE_ORIENTATION,
   SHUFFLE_TRACKS,
+  SET_TIMER
 } from "./types";
 import { Audio } from "expo-av";
 import axios from "axios";
@@ -88,9 +89,9 @@ export const handleChangeTrackAction = (currentIndex) => (dispatch) => {
   // );
 };
 
-export const handleSliderSeek = (value) => (dispatch) => {
+export const setCurrentPosition = (value) => (dispatch) => {
   dispatch({ type: SET_CURRENT_POSITIION, payload: value });
-  console.log("mediaActions onSeek currentPosition :>> ", value);
+  console.log("mediaActions setCurrentPosition currentPosition :>> ", value);
 };
 
 export const setPhoneOrientation = (value) => (dispatch) => {
@@ -101,4 +102,9 @@ export const setPhoneOrientation = (value) => (dispatch) => {
 export const shuffleTracks = (value) => (dispatch) => {
   dispatch({ type: SHUFFLE_TRACKS, payload: value });
   // console.log("mediaActions shuffleTracks :>> ", value);
+};
+
+export const setTimer = (value) => (dispatch) => {
+  dispatch({ type: SET_TIMER, payload: value });
+  console.log("mediaActions setTimer timerId :>> ", value);
 };

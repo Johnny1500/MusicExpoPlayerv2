@@ -14,7 +14,8 @@ const initialState = {
   playbackInstance: null,
   volume: 1.0,
   isBuffering: false,
-  shuffledTimes: 0
+  shuffledTimes: 0,
+  timerId: null
 };
 
 const store = createStore(mediaReducer, initialState, applyMiddleware(thunk));

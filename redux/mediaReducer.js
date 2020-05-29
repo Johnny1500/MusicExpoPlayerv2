@@ -9,6 +9,7 @@ import {
   SET_CURRENT_POSITIION,
   SET_PHONE_ORIENTATION,
   SHUFFLE_TRACKS,
+  SET_TIMER
 } from "./types";
 
 export default function (state, action) {
@@ -67,6 +68,11 @@ export default function (state, action) {
         tracks: action.payload,
         shuffledTimes: state.shuffledTimes+1
       };
+    case SET_TIMER:
+      return {
+        ...state,
+        timerId: action.payload
+      }
     default:
       return state;
   }

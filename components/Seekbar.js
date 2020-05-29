@@ -1,36 +1,44 @@
 import React from "react";
 import { Slider } from "react-native-elements";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 
 // Redux stuff
 import { connect } from "react-redux";
-import { handleSliderSeek, handlePlayPauseAction } from "../redux/mediaActions";
+import {
+  setCurrentPosition,
+  handlePlayPauseAction,
+} from "../redux/mediaActions";
 
 export const Seekbar = ({
   tracks,
   currentIndex,
   currentPosition,
-  handleSliderSeek,
+  setCurrentPosition,
   isPlaying,
   playbackInstance,
 }) => {
-  
   const { duration } = tracks[currentIndex];
-  // console.log('Seekbar duration :>> ', duration);
+  console.log("Seekbar currentPosition :>> ", currentPosition);
+  console.log('Seekbar duration :>> ', duration);
 
-  // function _pad(n, width, z = 0) {
-  //   n = n + "";
-  //   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
-  // }
+  // React.useEffect(()=>{
+  //   console.log('Seekbar useEffect test :>> ');
+  // }, [currentPosition])
 
-  // const minutesAndSeconds = (position) => [
-  //   _pad(Math.floor(position / 60), 2),
-  //   _pad(position % 60, 2),
-  // ];
+  function _pad(n, width, z = 0) {
+    n = n + "";
+    return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+  }
 
-  // const elapsed = minutesAndSeconds(currentPosition);
+  const minutesAndSeconds = (position) => [
+    _pad(Math.floor(position / 60), 2),
+    _pad(position % 60, 2),
+  ];
+
+  const elapsed = minutesAndSeconds(currentPosition);
   // console.log("Seekbar elapsed :>> ", elapsed);
-  // const remaining = minutesAndSeconds(trackLength - currentPosition);
+  const remaining = minutesAndSeconds(duration - currentPosition);
   // console.log("Seekbar remaining :>> ", remaining);
 
   const onSlidingStart = async () => {
@@ -43,48 +51,74 @@ export const Seekbar = ({
 
   const onSeek = async () => {
     // console.log("Seekbar onSeek Test");
-    console.log("Seekbar onSeek currentPosition in seconds:>> ", currentPosition);
+    console.log(
+      "Seekbar onSeek currentPosition in seconds:>> ",
+      currentPosition
+    );
     const currentPositionMilliseconds = currentPosition * 1000;
-    console.log("Seekbar onSeek currentPosition in milliseconds :>> ", currentPositionMilliseconds);
+    console.log(
+      "Seekbar onSeek currentPosition in milliseconds :>> ",
+      currentPositionMilliseconds
+    );
     // console.log("Seekbar onSeek playbackInstance:>> ", playbackInstance);
-    await playbackInstance.playFromPositionAsync(currentPositionMilliseconds);
+    if (isPlaying) {
+      await playbackInstance.playFromPositionAsync(currentPositionMilliseconds);
+    }
+
+    setCurrentPosition(currentPosition);
   };
 
   const onValueChange = (value) => {
-    const currentPosition = Math.floor(duration*value);
+    const currentPosition = Math.floor(duration * value);
     // console.log('currentPosition :>> ', currentPosition);
-    handleSliderSeek(currentPosition);
+    setCurrentPosition(currentPosition);
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.durationInfo}>
-        {/* <Text>{elapsed[0] + ":" + elapsed[1]}</Text>
+        <Text>{elapsed[0] + ":" + elapsed[1]}</Text>
         <View style={styles.placeholder}></View>
         <Text>
-          {trackLength > 1 && "-" + remaining[0] + ":" + remaining[1]}
-        </Text> */}
+          {duration > 1 && "-" + remaining[0] + ":" + remaining[1]}
+        </Text>
       </View>
       <Slider
         onSlidingStart={onSlidingStart}
         onSlidingComplete={onSeek}
         onValueChange={onValueChange}
+        thumbTintColor="#2f712f"
+        trackStyle={styles.trackStyleSlider}
+        value={Math.floor(currentPosition/duration)}
+        animateTransitions={true}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: vmax(2),
+    // color: "#2f712f",
+  },
   durationInfo: {
     flexDirection: "row",
   },
   placeholder: {
     flex: 1,
   },
+  // slider: {
+  //   marginHorizontal: vmax(1),
+  //   color: "#2f712f",
+  // },
+  trackStyleSlider: {
+    backgroundColor: "#4ab04a",
+    borderColor: "#4ab04a"
+  },
 });
 
 const mapActionsToProps = {
-  handleSliderSeek,
+  setCurrentPosition,
   handlePlayPauseAction,
 };
 
@@ -93,7 +127,7 @@ const mapStateToProps = (state) => ({
   currentPosition: state.currentPosition,
   isPlaying: state.isPlaying,
   tracks: state.tracks,
-  currentIndex: state.currentIndex
+  currentIndex: state.currentIndex,
 });
 
 export default connect(mapStateToProps, mapActionsToProps)(Seekbar);

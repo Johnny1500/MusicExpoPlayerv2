@@ -11,6 +11,8 @@ import {
   handlePlayPauseAction,
   handleChangeTrackAction,
   shuffleTracks,
+  setCurrentPosition,
+  setTimer
 } from "../redux/mediaActions";
 
 const Controls = ({
@@ -22,6 +24,10 @@ const Controls = ({
   handlePlayPauseAction,
   handleChangeTrackAction,
   shuffleTracks,
+  currentPosition,
+  setCurrentPosition,
+  timerId,
+  setTimer
 }) => {
   React.useEffect(() => {
     // console.log("Controls2 useEffect tracks :>> ", tracks);
@@ -35,20 +41,56 @@ const Controls = ({
   // console.log("Controls2 imageSource :>> ", imageSource);
 
   const handlePlayPause = async () => {
-    isPlaying
-      ? await playbackInstance.pauseAsync()
-      : await playbackInstance.playAsync();
-    handlePlayPauseAction(isPlaying);
+    try {
+      const currentPositionMilliseconds = currentPosition * 1000;
+      // console.log(
+      //   "Controls handlePlayPause currentPosition in milliseconds :>> ",
+      //   currentPositionMilliseconds
+      // );
+      
+      console.log('Controls handlePlayPause timerId :>> ', timerId);
+      
+      if (isPlaying) {
+        await playbackInstance.pauseAsync();
+        if(timerId) {
+          console.log('Controls handlePlayPause test');
+          clearTimeout(timerId);
+        }
+      } else {
+        await playbackInstance.playFromPositionAsync(
+          currentPositionMilliseconds
+        );
+        const timerId = setInterval(() => {
+          currentPosition += 1;
+          // console.log(
+          //   "Controls handlePlayPause currentPosition :>> ",
+          //   currentPosition
+          // );
+          setCurrentPosition(currentPosition);
+        }, 1000);
+
+        setTimer(timerId);
+
+      }
+
+      // isPlaying
+      //   ? await playbackInstance.pauseAsync()
+      //   : await playbackInstance.playFromPositionAsync(currentPositionMilliseconds);
+      handlePlayPauseAction(isPlaying);
+      
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handlePreviousTrack = async () => {
-    const amountOfTracks = tracks.length;
-    // console.log(
-    //   "Controls2 handlePreviousTrack amountOfTracks :>> ",
-    //   amountOfTracks
-    // );
-
     try {
+      const amountOfTracks = tracks.length;
+      // console.log(
+      //   "Controls2 handlePreviousTrack amountOfTracks :>> ",
+      //   amountOfTracks
+      // );
+
       if (playbackInstance) {
         await playbackInstance.unloadAsync();
 
@@ -77,13 +119,13 @@ const Controls = ({
   };
 
   const handleNextTrack = async () => {
-    const amountOfTracks = tracks.length;
-    // console.log(
-    //   "Controls2 handleNextTrack amountOfTracks :>> ",
-    //   amountOfTracks
-    // );
-
     try {
+      const amountOfTracks = tracks.length;
+      // console.log(
+      //   "Controls2 handleNextTrack amountOfTracks :>> ",
+      //   amountOfTracks
+      // );
+
       if (playbackInstance) {
         await playbackInstance.unloadAsync();
         currentIndex < amountOfTracks - 1
@@ -222,6 +264,8 @@ const mapActionsToProps = {
   handlePlayPauseAction,
   handleChangeTrackAction,
   shuffleTracks,
+  setCurrentPosition,
+  setTimer
 };
 
 const mapStateToProps = (state) => ({
@@ -229,6 +273,8 @@ const mapStateToProps = (state) => ({
   currentIndex: state.currentIndex,
   isPlaying: state.isPlaying,
   tracks: state.tracks,
+  currentPosition: state.currentPosition,
+  timerId: state.timerId
 });
 
 export default connect(mapStateToProps, mapActionsToProps)(Controls);
