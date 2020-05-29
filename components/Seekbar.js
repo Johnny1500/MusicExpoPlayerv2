@@ -22,21 +22,6 @@ export const Seekbar = ({
   console.log("Seekbar currentPosition :>> ", currentPosition);
   console.log('Seekbar duration :>> ', duration);
 
-  // React.useEffect(()=>{
-  //   console.log('Seekbar useEffect test :>> ');
-  // }, [currentPosition])
-
-  // let timer = 0;
-
-  // const timerId = setInterval(() => {
-  //   timer += 0.1;
-  //   // console.log(
-  //   //   "Controls handlePlayPause currentPosition :>> ",
-  //   //   currentPosition
-  //   // );
-  //   console.log('timer :>> ', timer);
-  // }, 1000);
-
   function _pad(n, width, z = 0) {
     n = n + "";
     return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
@@ -84,9 +69,7 @@ export const Seekbar = ({
     // console.log('currentPosition :>> ', currentPosition);
     setCurrentPosition(currentPosition);
   };
-
-  // const [state, setState] = React.useState(Math.floor(currentPosition/duration))
-
+s 
   let sliderValue = Math.round((currentPosition/duration)*100)/100;
   console.log('Seekbar sliderValue', sliderValue);
 
