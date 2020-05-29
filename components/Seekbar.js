@@ -26,6 +26,17 @@ export const Seekbar = ({
   //   console.log('Seekbar useEffect test :>> ');
   // }, [currentPosition])
 
+  // let timer = 0;
+
+  // const timerId = setInterval(() => {
+  //   timer += 0.1;
+  //   // console.log(
+  //   //   "Controls handlePlayPause currentPosition :>> ",
+  //   //   currentPosition
+  //   // );
+  //   console.log('timer :>> ', timer);
+  // }, 1000);
+
   function _pad(n, width, z = 0) {
     n = n + "";
     return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
@@ -74,6 +85,11 @@ export const Seekbar = ({
     setCurrentPosition(currentPosition);
   };
 
+  // const [state, setState] = React.useState(Math.floor(currentPosition/duration))
+
+  let sliderValue = Math.round((currentPosition/duration)*100)/100;
+  console.log('Seekbar sliderValue', sliderValue);
+
   return (
     <View style={styles.container}>
       <View style={styles.durationInfo}>
@@ -89,8 +105,7 @@ export const Seekbar = ({
         onValueChange={onValueChange}
         thumbTintColor="#2f712f"
         trackStyle={styles.trackStyleSlider}
-        value={Math.floor(currentPosition/duration)}
-        animateTransitions={true}
+        value={sliderValue}
       />
     </View>
   );
