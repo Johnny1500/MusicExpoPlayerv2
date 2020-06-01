@@ -69,7 +69,7 @@ export const Seekbar = ({
     // console.log('currentPosition :>> ', currentPosition);
     setCurrentPosition(currentPosition);
   };
-s 
+ 
   let sliderValue = Math.round((currentPosition/duration)*100)/100;
   console.log('Seekbar sliderValue', sliderValue);
 
