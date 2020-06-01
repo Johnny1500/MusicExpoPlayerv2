@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import {
   setCurrentPosition,
   handlePlayPauseAction,
+  setTimer,
 } from "../redux/mediaActions";
 
 export const Seekbar = ({
@@ -17,10 +18,12 @@ export const Seekbar = ({
   setCurrentPosition,
   isPlaying,
   playbackInstance,
+  timerId,
+  setTimer,
 }) => {
   const { duration } = tracks[currentIndex];
   console.log("Seekbar currentPosition :>> ", currentPosition);
-  console.log('Seekbar duration :>> ', duration);
+  console.log("Seekbar duration :>> ", duration);
 
   function _pad(n, width, z = 0) {
     n = n + "";
@@ -38,6 +41,8 @@ export const Seekbar = ({
   // console.log("Seekbar remaining :>> ", remaining);
 
   const onSlidingStart = async () => {
+    if (timerId) clearTimeout(timerId);
+
     // if (isPlaying) {
     //   await playbackInstance.pauseAsync();
     //   handlePlayPauseAction(isPlaying);
@@ -59,9 +64,18 @@ export const Seekbar = ({
     // console.log("Seekbar onSeek playbackInstance:>> ", playbackInstance);
     if (isPlaying) {
       await playbackInstance.playFromPositionAsync(currentPositionMilliseconds);
+      const timerId = setInterval(() => {
+        currentPosition += 1;
+        // console.log(
+        //   "Controls handlePlayPause currentPosition :>> ",
+        //   currentPosition
+        // );
+        setCurrentPosition(currentPosition);
+      }, 1000);
+      setTimer(timerId);
+    } else {
+      setCurrentPosition(currentPosition);
     }
-
-    setCurrentPosition(currentPosition);
   };
 
   const onValueChange = (value) => {
@@ -69,18 +83,16 @@ export const Seekbar = ({
     // console.log('currentPosition :>> ', currentPosition);
     setCurrentPosition(currentPosition);
   };
- 
-  let sliderValue = Math.round((currentPosition/duration)*100)/100;
-  console.log('Seekbar sliderValue', sliderValue);
+
+  let sliderValue = Math.round((currentPosition / duration) * 100) / 100;
+  console.log("Seekbar sliderValue", sliderValue);
 
   return (
     <View style={styles.container}>
       <View style={styles.durationInfo}>
         <Text>{elapsed[0] + ":" + elapsed[1]}</Text>
         <View style={styles.placeholder}></View>
-        <Text>
-          {duration > 1 && "-" + remaining[0] + ":" + remaining[1]}
-        </Text>
+        <Text>{duration > 1 && "-" + remaining[0] + ":" + remaining[1]}</Text>
       </View>
       <Slider
         onSlidingStart={onSlidingStart}
@@ -89,6 +101,8 @@ export const Seekbar = ({
         thumbTintColor="#2f712f"
         trackStyle={styles.trackStyleSlider}
         value={sliderValue}
+        minimumTrackTintColor="#1e481e"
+        maximumTrackTintColor="#7cbd7c"
       />
     </View>
   );
@@ -110,14 +124,14 @@ const styles = StyleSheet.create({
   //   color: "#2f712f",
   // },
   trackStyleSlider: {
-    backgroundColor: "#4ab04a",
-    borderColor: "#4ab04a"
+    // borderWidth: 1
   },
 });
 
 const mapActionsToProps = {
   setCurrentPosition,
   handlePlayPauseAction,
+  setTimer,
 };
 
 const mapStateToProps = (state) => ({
@@ -126,6 +140,7 @@ const mapStateToProps = (state) => ({
   isPlaying: state.isPlaying,
   tracks: state.tracks,
   currentIndex: state.currentIndex,
+  timerId: state.timerId,
 });
 
 export default connect(mapStateToProps, mapActionsToProps)(Seekbar);

@@ -12,7 +12,7 @@ import {
   handleChangeTrackAction,
   shuffleTracks,
   setCurrentPosition,
-  setTimer
+  setTimer,
 } from "../redux/mediaActions";
 
 const Controls = ({
@@ -27,7 +27,7 @@ const Controls = ({
   currentPosition,
   setCurrentPosition,
   timerId,
-  setTimer
+  setTimer,
 }) => {
   React.useEffect(() => {
     // console.log("Controls2 useEffect tracks :>> ", tracks);
@@ -47,13 +47,13 @@ const Controls = ({
       //   "Controls handlePlayPause currentPosition in milliseconds :>> ",
       //   currentPositionMilliseconds
       // );
-      
-      console.log('Controls handlePlayPause timerId :>> ', timerId);
-      
+
+      console.log("Controls handlePlayPause timerId :>> ", timerId);
+
       if (isPlaying) {
         await playbackInstance.pauseAsync();
-        if(timerId) {
-          console.log('Controls handlePlayPause test');
+        if (timerId) {
+          console.log("Controls handlePlayPause test");
           clearTimeout(timerId);
         }
       } else {
@@ -70,14 +70,12 @@ const Controls = ({
         }, 1000);
 
         setTimer(timerId);
-
       }
 
       // isPlaying
       //   ? await playbackInstance.pauseAsync()
       //   : await playbackInstance.playFromPositionAsync(currentPositionMilliseconds);
       handlePlayPauseAction(isPlaying);
-      
     } catch (e) {
       console.log(e);
     }
@@ -98,7 +96,9 @@ const Controls = ({
           ? (currentIndex -= 1)
           : (currentIndex = amountOfTracks - 1);
 
+        if (timerId) clearTimeout(timerId);
         handleChangeTrackAction(currentIndex);
+        setCurrentPosition(0);
 
         const { uri } = tracks[currentIndex];
         // console.log(
@@ -110,7 +110,21 @@ const Controls = ({
         //   isPlaying
         // );
 
-        loadAudio(uri, isPlaying);
+        await loadAudio(uri, isPlaying);
+        if (isPlaying) {
+          currentPosition = 0;
+          const timerId = setInterval(() => {
+            currentPosition += 1;
+            // console.log(
+            //   "Controls handlePlayPause currentPosition :>> ",
+            //   currentPosition
+            // );
+            setCurrentPosition(currentPosition);
+          }, 1000);
+
+          setTimer(timerId);
+        }
+
         // console.log("window.loadAudio :>> ", window.loadAudio);
       }
     } catch (e) {
@@ -131,7 +145,9 @@ const Controls = ({
         currentIndex < amountOfTracks - 1
           ? (currentIndex += 1)
           : (currentIndex = 0);
+        if (timerId) clearTimeout(timerId);
         handleChangeTrackAction(currentIndex);
+        setCurrentPosition(0);
 
         const { uri } = tracks[currentIndex];
         // console.log(
@@ -143,7 +159,20 @@ const Controls = ({
         //   isPlaying
         // );
 
-        loadAudio(uri, isPlaying);
+        await loadAudio(uri, isPlaying);
+        if (isPlaying) {
+          currentPosition = 0;
+          const timerId = setInterval(() => {
+            currentPosition += 1;
+            // console.log(
+            //   "Controls handlePlayPause currentPosition :>> ",
+            //   currentPosition
+            // );
+            setCurrentPosition(currentPosition);
+          }, 1000);
+
+          setTimer(timerId);
+        }
       }
     } catch (e) {
       console.log(e);
@@ -265,7 +294,7 @@ const mapActionsToProps = {
   handleChangeTrackAction,
   shuffleTracks,
   setCurrentPosition,
-  setTimer
+  setTimer,
 };
 
 const mapStateToProps = (state) => ({
@@ -274,7 +303,7 @@ const mapStateToProps = (state) => ({
   isPlaying: state.isPlaying,
   tracks: state.tracks,
   currentPosition: state.currentPosition,
-  timerId: state.timerId
+  timerId: state.timerId,
 });
 
 export default connect(mapStateToProps, mapActionsToProps)(Controls);

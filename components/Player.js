@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 18,
+    color: "#1e481e"
   },
 
   containerControl: {
@@ -107,6 +108,7 @@ const styles = StyleSheet.create({
     marginTop: vmax(5),
     fontWeight: "bold",
     fontSize: 20,
+    color: "#1e481e"
   },
 
   authorTitle: {
