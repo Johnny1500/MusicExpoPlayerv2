@@ -13,6 +13,7 @@ import {
   shuffleTracks,
   setCurrentPosition,
   setTimer,
+  setCurrentPositionWithTimer
 } from "../redux/mediaActions";
 
 const Controls = ({
@@ -28,6 +29,7 @@ const Controls = ({
   setCurrentPosition,
   timerId,
   setTimer,
+  setCurrentPositionWithTimer
 }) => {
   React.useEffect(() => {
     // console.log("Controls2 useEffect tracks :>> ", tracks);
@@ -60,16 +62,17 @@ const Controls = ({
         await playbackInstance.playFromPositionAsync(
           currentPositionMilliseconds
         );
-        const timerId = setInterval(() => {
-          currentPosition += 1;
-          // console.log(
-          //   "Controls handlePlayPause currentPosition :>> ",
-          //   currentPosition
-          // );
-          setCurrentPosition(currentPosition);
-        }, 1000);
+        setCurrentPositionWithTimer(currentPosition);
+        // const timerId = setInterval(() => {
+        //   currentPosition += 1;
+        //   // console.log(
+        //   //   "Controls handlePlayPause currentPosition :>> ",
+        //   //   currentPosition
+        //   // );
+        //   setCurrentPosition(currentPosition);
+        // }, 1000);
 
-        setTimer(timerId);
+        // setTimer(timerId);
       }
 
       // isPlaying
@@ -113,16 +116,18 @@ const Controls = ({
         await loadAudio(uri, isPlaying);
         if (isPlaying) {
           currentPosition = 0;
-          const timerId = setInterval(() => {
-            currentPosition += 1;
-            // console.log(
-            //   "Controls handlePlayPause currentPosition :>> ",
-            //   currentPosition
-            // );
-            setCurrentPosition(currentPosition);
-          }, 1000);
+          setCurrentPositionWithTimer(currentPosition);
+          // currentPosition = 0;
+          // const timerId = setInterval(() => {
+          //   currentPosition += 1;
+          //   // console.log(
+          //   //   "Controls handlePlayPause currentPosition :>> ",
+          //   //   currentPosition
+          //   // );
+          //   setCurrentPosition(currentPosition);
+          // }, 1000);
 
-          setTimer(timerId);
+          // setTimer(timerId);
         }
 
         // console.log("window.loadAudio :>> ", window.loadAudio);
@@ -162,16 +167,17 @@ const Controls = ({
         await loadAudio(uri, isPlaying);
         if (isPlaying) {
           currentPosition = 0;
-          const timerId = setInterval(() => {
-            currentPosition += 1;
-            // console.log(
-            //   "Controls handlePlayPause currentPosition :>> ",
-            //   currentPosition
-            // );
-            setCurrentPosition(currentPosition);
-          }, 1000);
+          setCurrentPositionWithTimer(currentPosition);
+          // const timerId = setInterval(() => {
+          //   currentPosition += 1;
+          //   // console.log(
+          //   //   "Controls handlePlayPause currentPosition :>> ",
+          //   //   currentPosition
+          //   // );
+          //   setCurrentPosition(currentPosition);
+          // }, 1000);
 
-          setTimer(timerId);
+          // setTimer(timerId);
         }
       }
     } catch (e) {
@@ -188,6 +194,7 @@ const Controls = ({
           [tracks[i], tracks[j]] = [tracks[j], tracks[i]];
         }
         shuffleTracks(tracks);
+        setCurrentPosition(0);
         const { uri } = tracks[currentIndex];
         console.log(
           "Controls handleShuffleTracks tracks[currentIndex] :>> ",
@@ -206,6 +213,7 @@ const Controls = ({
         await playbackInstance.unloadAsync();
         tracks.reverse();
         shuffleTracks(tracks);
+        setCurrentPosition(0);
         const { uri } = tracks[currentIndex];
         console.log(
           "Controls handleShuffleTracks tracks[currentIndex] :>> ",
@@ -295,6 +303,7 @@ const mapActionsToProps = {
   shuffleTracks,
   setCurrentPosition,
   setTimer,
+  setCurrentPositionWithTimer
 };
 
 const mapStateToProps = (state) => ({

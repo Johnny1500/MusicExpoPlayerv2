@@ -8,7 +8,9 @@ import { connect } from "react-redux";
 import {
   setCurrentPosition,
   handlePlayPauseAction,
-  setTimer,
+  setCurrentPositionWithTimer,
+  handleChangeTrackAction,
+  loadAudio,
 } from "../redux/mediaActions";
 
 export const Seekbar = ({
@@ -19,11 +21,55 @@ export const Seekbar = ({
   isPlaying,
   playbackInstance,
   timerId,
-  setTimer,
+  setCurrentPositionWithTimer,
+  handleChangeTrackAction,
+  loadAudio,
 }) => {
   const { duration } = tracks[currentIndex];
   console.log("Seekbar currentPosition :>> ", currentPosition);
   console.log("Seekbar duration :>> ", duration);
+
+  let sliderValue = Math.round((currentPosition / duration) * 100) / 100;
+  console.log("Seekbar sliderValue", sliderValue);
+
+  React.useEffect(() => {
+    console.log("Test Seekbar React.UseEffect");
+
+    // Функция есть в Controls. Убрать в Utils, если еще будут общие функции
+    async function handleNextTrack() {
+      // console.log("Test Seekbar React.UseEffect handleNextTrack");
+
+      try {
+        const amountOfTracks = tracks.length;
+        console.log(
+          "Test Seekbar React.UseEffect handleNextTrack  amountOfTracks:>> ",
+          amountOfTracks
+        );
+
+        if (playbackInstance) {
+          await playbackInstance.unloadAsync();
+          currentIndex < amountOfTracks - 1
+            ? (currentIndex += 1)
+            : (currentIndex = 0);
+          if (timerId) clearTimeout(timerId);
+          handleChangeTrackAction(currentIndex);
+          setCurrentPosition(0);
+
+          const { uri } = tracks[currentIndex];
+
+          await loadAudio(uri, isPlaying);
+          if (isPlaying) {
+            currentPosition = 0;
+            setCurrentPositionWithTimer(currentPosition);
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    if (currentPosition >= duration) handleNextTrack();
+  }, [currentPosition]);
 
   function _pad(n, width, z = 0) {
     n = n + "";
@@ -64,28 +110,26 @@ export const Seekbar = ({
     // console.log("Seekbar onSeek playbackInstance:>> ", playbackInstance);
     if (isPlaying) {
       await playbackInstance.playFromPositionAsync(currentPositionMilliseconds);
-      const timerId = setInterval(() => {
-        currentPosition += 1;
-        // console.log(
-        //   "Controls handlePlayPause currentPosition :>> ",
-        //   currentPosition
-        // );
-        setCurrentPosition(currentPosition);
-      }, 1000);
-      setTimer(timerId);
+      setCurrentPositionWithTimer(currentPosition);
+      // const timerId = setInterval(() => {
+      //   currentPosition += 1;
+      //   // console.log(
+      //   //   "Controls handlePlayPause currentPosition :>> ",
+      //   //   currentPosition
+      //   // );
+      //   setCurrentPosition(currentPosition);
+      // }, 1000);
+      // setTimer(timerId);
     } else {
       setCurrentPosition(currentPosition);
     }
   };
 
-  const onValueChange = (value) => {
+  const onValueChange = async (value) => {
     const currentPosition = Math.floor(duration * value);
     // console.log('currentPosition :>> ', currentPosition);
     setCurrentPosition(currentPosition);
   };
-
-  let sliderValue = Math.round((currentPosition / duration) * 100) / 100;
-  console.log("Seekbar sliderValue", sliderValue);
 
   return (
     <View style={styles.container}>
@@ -131,7 +175,9 @@ const styles = StyleSheet.create({
 const mapActionsToProps = {
   setCurrentPosition,
   handlePlayPauseAction,
-  setTimer,
+  setCurrentPositionWithTimer,
+  handleChangeTrackAction,
+  loadAudio,
 };
 
 const mapStateToProps = (state) => ({

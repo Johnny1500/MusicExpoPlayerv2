@@ -9,7 +9,7 @@ import {
   SET_CURRENT_POSITIION,
   SET_PHONE_ORIENTATION,
   SHUFFLE_TRACKS,
-  SET_TIMER
+  SET_TIMER,
 } from "./types";
 import { Audio } from "expo-av";
 import axios from "axios";
@@ -43,7 +43,7 @@ export const loadAudio = (uri, isPlaying) => async (dispatch) => {
   try {
     console.log("mediaActions loadAudio uri :>> ", uri);
     console.log("mediaActions loadAudio isPlaying :>> ", isPlaying);
-   
+
     dispatch({ type: LOADING_PLAYBACKINSTANCE });
 
     const playbackInstance = new Audio.Sound();
@@ -107,4 +107,14 @@ export const shuffleTracks = (value) => (dispatch) => {
 export const setTimer = (value) => (dispatch) => {
   dispatch({ type: SET_TIMER, payload: value });
   console.log("mediaActions setTimer timerId :>> ", value);
+};
+
+export const setCurrentPositionWithTimer = (value) => (dispatch) => {
+  const timerId = setInterval(() => {
+    value += 1;
+    dispatch({ type: SET_CURRENT_POSITIION, payload: value });
+    console.log("mediaActions setCurrentPositionWithTimer currentPosition :>> ", value);
+  }, 1000);
+  console.log("mediaActions setCurrentPositionWithTimer timerId :>> ", value);
+  dispatch({ type: SET_TIMER, payload: timerId });
 };
