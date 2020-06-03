@@ -194,6 +194,7 @@ const Controls = ({
           [tracks[i], tracks[j]] = [tracks[j], tracks[i]];
         }
         shuffleTracks(tracks);
+        if (timerId) clearTimeout(timerId);
         setCurrentPosition(0);
         const { uri } = tracks[currentIndex];
         console.log(
@@ -213,6 +214,7 @@ const Controls = ({
         await playbackInstance.unloadAsync();
         tracks.reverse();
         shuffleTracks(tracks);
+        if (timerId) clearTimeout(timerId);
         setCurrentPosition(0);
         const { uri } = tracks[currentIndex];
         console.log(
