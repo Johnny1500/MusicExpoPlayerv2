@@ -12,8 +12,7 @@ import {
   handleChangeTrackAction,
   shuffleTracks,
   setCurrentPosition,
-  setTimer,
-  setCurrentPositionWithTimer
+  setCurrentPositionWithTimer,
 } from "../redux/mediaActions";
 
 const Controls = ({
@@ -28,8 +27,7 @@ const Controls = ({
   currentPosition,
   setCurrentPosition,
   timerId,
-  setTimer,
-  setCurrentPositionWithTimer
+  setCurrentPositionWithTimer,
 }) => {
   React.useEffect(() => {
     // console.log("Controls2 useEffect tracks :>> ", tracks);
@@ -304,8 +302,7 @@ const mapActionsToProps = {
   handleChangeTrackAction,
   shuffleTracks,
   setCurrentPosition,
-  setTimer,
-  setCurrentPositionWithTimer
+  setCurrentPositionWithTimer,
 };
 
 const mapStateToProps = (state) => ({
