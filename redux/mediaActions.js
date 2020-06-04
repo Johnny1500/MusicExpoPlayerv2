@@ -78,15 +78,15 @@ export const loadAudio = (uri, isPlaying) => async (dispatch) => {
 
 export const handlePlayPauseAction = (isPlaying) => (dispatch) => {
   dispatch({ type: SET_PLAY, payload: !isPlaying });
-  // console.log("mediaActions handlePlayPauseAction isPlaying :>> ", !isPlaying);
+  console.log("mediaActions handlePlayPauseAction isPlaying :>> ", !isPlaying);
 };
 
 export const handleChangeTrackAction = (currentIndex) => (dispatch) => {
   dispatch({ type: SET_CURRENT_INDEX, payload: currentIndex });
-  // console.log(
-  //   "mediaActions handleChangeTrackAction currentIndex :>> ",
-  //   currentIndex
-  // );
+  console.log(
+    "mediaActions handleChangeTrackAction currentIndex :>> ",
+    currentIndex
+  );
 };
 
 export const setCurrentPosition = (value) => (dispatch) => {

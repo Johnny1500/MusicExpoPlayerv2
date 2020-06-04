@@ -10,6 +10,7 @@ import { setTracks, setPhoneOrientation } from "../redux/mediaActions";
 
 // import Controls from "./Controls";
 import Player from "./Player";
+import TrackList from './TrackList';
 
 const Home = ({ loading, setTracks, setPhoneOrientation }) => {
   React.useEffect(() => {
@@ -41,7 +42,7 @@ const Home = ({ loading, setTracks, setPhoneOrientation }) => {
   }, []);
 
   let markup = !loading ? (
-    <Player />
+    <TrackList />
   ) : (
     <View>
       <ActivityIndicator size="large" color="#2f712f" />

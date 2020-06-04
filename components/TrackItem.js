@@ -5,44 +5,65 @@ import PropTypes from "prop-types";
 
 // Redux stuff
 import { connect } from "react-redux";
+import {
+  loadAudio,
+  handlePlayPauseAction,
+  handleChangeTrackAction,
+  setCurrentPositionWithTimer,
+  setCurrentPosition
+} from "../redux/mediaActions";
 
 const TrackItem = ({
   playbackInstance,
-  tracks,
+  track,
   isPlaying,
   index,
-  handlePlayPauseAction,
   timerId,
-  setCurrentPositionWithTimer,
+  currentIndex,
+  currentPosition,
   loadAudio,
+  setCurrentPosition,
+  setCurrentPositionWithTimer,
+  handleChangeTrackAction,
+  handlePlayPauseAction,
 }) => {
-  const { uri, imageSource, album, title, author, durationText } = tracks[index];
-  
+  const { uri, imageSource, title, author, durationText } = track;
+
   const handlePlayPause = async () => {
     try {
-      const currentPositionMilliseconds = currentPosition * 1000;
-      
-      // console.log(
-      //   "Controls handlePlayPause currentPosition in milliseconds :>> ",
-      //   currentPositionMilliseconds
-      // );
+      if (playbackInstance) {
+        const currentPositionMilliseconds = currentPosition * 1000;
 
-    // console.log("Controls handlePlayPause timerId :>> ", timerId);
-
-      if (isPlaying) {
-        await playbackInstance.pauseAsync();
-        if (timerId) {
-        //   console.log("Controls handlePlayPause test");
-          clearTimeout(timerId);
+        if (index != currentIndex) {
+          await playbackInstance.unloadAsync();
+          handleChangeTrackAction(index);
+          setCurrentPosition(0);
+          handlePlayPauseAction(isPlaying);
+          await loadAudio(uri, isPlaying);
         }
-      } else {
-        await playbackInstance.playFromPositionAsync(
-          currentPositionMilliseconds
-        );
-        setCurrentPositionWithTimer(currentPosition);
-      }
 
-      handlePlayPauseAction(isPlaying);
+        // console.log(
+        //   "Controls handlePlayPause currentPosition in milliseconds :>> ",
+        //   currentPositionMilliseconds
+        // );
+
+        // console.log("Controls handlePlayPause timerId :>> ", timerId);
+
+        if (isPlaying) {
+          await playbackInstance.pauseAsync();
+          if (timerId) {
+            //   console.log("Controls handlePlayPause test");
+            clearTimeout(timerId);
+          }
+        } else {
+          await playbackInstance.playFromPositionAsync(
+            currentPositionMilliseconds
+          );
+          setCurrentPositionWithTimer(currentPosition);
+        }
+
+        handlePlayPauseAction(isPlaying);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -57,12 +78,13 @@ const TrackItem = ({
             uri: imageSource,
           }}
         />
-        <View>
+        <View style={styles.info}>
           <Text style={styles.authorTitle}>{author}</Text>
           <Text style={styles.trackTitle}>{title}</Text>
         </View>
-        <Text>{durationText}</Text>
+        <Text style={styles.durationText}>{durationText}</Text>
       </TouchableOpacity>
+      <View style={styles.separator}></View>
     </View>
   );
 };
@@ -74,13 +96,13 @@ const styles = StyleSheet.create({
   },
 
   albumCover: {
-    width: vmax(10),
-    height: vmax(10),
+    width: vmax(8),
+    height: vmax(8),
+    marginLeft: vmax(1)
   },
 
   trackTitle: {
     fontWeight: "bold",
-    textAlign: "center",
     fontSize: 14,
     color: "#1e481e",
   },
@@ -88,25 +110,47 @@ const styles = StyleSheet.create({
   authorTitle: {
     fontSize: 12,
   },
+
+  info: {
+    flex:1,
+    alignItems: "center"
+  },
+
+  durationText: {
+    paddingRight: vmax(2)
+  },
+
+  separator: {
+    margin: 2,
+    borderWidth: 0.5
+  }
+
 });
 
 TrackItem.propTypes = {
-  imageSource: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  author: PropTypes.string.isRequired,
-  durationText: PropTypes.string.isRequired,
-  playbackInstance: PropTypes.object.isRequired,
+  track: PropTypes.object.isRequired,
+  playbackInstance: PropTypes.object,
+  index: PropTypes.number.isRequired,
+  timerId: PropTypes.number,
+  currentIndex: PropTypes.number.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
+  currentPosition: PropTypes.number.isRequired,
 };
 
 const mapActionsToProps = {
   loadAudio,
+  handleChangeTrackAction,
+  handlePlayPauseAction,
+  setCurrentPositionWithTimer,
+  setCurrentPosition,
 };
 
 const mapStateToProps = (state) => ({
   playbackInstance: state.playbackInstance,
   isPlaying: state.isPlaying,
-  tracks: state.tracks,
-  playbackInstance: state.playbackInstance,
+  timerId: state.timerId,
+  currentIndex: state.currentIndex,
+  currentPosition: state.currentPosition,
 });
 
 export default connect(mapStateToProps, mapActionsToProps)(TrackItem);
