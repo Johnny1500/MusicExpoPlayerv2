@@ -26,10 +26,26 @@ export const setTracks = () => async (dispatch) => {
     console.log("mediaActions start loading tracks");
     dispatch({ type: LOADING_DATA });
 
-    let res = await axios.get("/tracks/");
+    const res = await axios.get("/tracks/");
+
+    const uri = res.data[0].uri;
 
     // console.log('res.data :>> ', res.data);
+    console.log('mediaActions setTracks uri :>> ', uri);
 
+    const playbackInstance = new Audio.Sound();
+
+    const status = {
+      shouldPlay: false,
+    };
+
+    const source = {
+      uri: uri,
+    };
+
+    await playbackInstance.loadAsync(source, status, false);
+    // console.log('mediaActions setTracks playbackInstance :>> ', playbackInstance);
+    dispatch({ type: SET_PLAYBACKINSTANCE, payload: playbackInstance });
     dispatch({ type: SET_TRACKS, payload: res.data });
     console.log("mediaActions tracks have been loaded");
     // console.log('mediaActions setTracks() res.data :>> ', res.data);
@@ -91,7 +107,7 @@ export const handleChangeTrackAction = (currentIndex) => (dispatch) => {
 
 export const setCurrentPosition = (value) => (dispatch) => {
   dispatch({ type: SET_CURRENT_POSITIION, payload: value });
-  console.log("mediaActions setCurrentPosition currentPosition :>> ", value);
+  // console.log("mediaActions setCurrentPosition currentPosition :>> ", value);
 };
 
 export const setPhoneOrientation = (value) => (dispatch) => {

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  ScrollView,
 } from "react-native";
 import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 import PropTypes from "prop-types";
@@ -17,35 +18,60 @@ import { loadAudio } from "../redux/mediaActions";
 import TrackItem from "./TrackItem";
 
 const TrackList = ({ tracks, currentIndex, isPlaying, loadAudio }) => {
-  React.useEffect(() => {
-    console.log("TrackList useEffect tracks :>> ", tracks);
-    const { uri } = tracks[currentIndex];
-    console.log("TrackList useEffect uri :>> ", uri);
-    console.log("TrackList useEffect isPlaying :>> ", isPlaying);
-    loadAudio(uri, isPlaying);
-  }, []);
+  // React.useEffect(() => {
+  //   console.log("TrackList useEffect tracks :>> ", tracks);
+  //   const { uri } = tracks[currentIndex];
+  //   console.log("TrackList useEffect uri :>> ", uri);
+  //   console.log("TrackList useEffect isPlaying :>> ", isPlaying);
+  //   loadAudio(uri, isPlaying);
+  // }, []);
 
   const { album } = tracks[currentIndex];
+  const trackListMarkup = tracks.map((track, index) => (
+    <TrackItem track={track} index={index} key={track.id} />
+  ));
 
   return (
-    <View>
-      <Text style={styles.albumTitle}>{album}</Text>
+    <View style={styles.container}>
+      {/* <View> */}
+        <Text style={styles.albumTitle}>{album}</Text>
+      {/* </View> */}
+      {/* <View style={styles.tracklist}>
+        <ScrollView scrollEnabled={true}>{trackListMarkup}</ScrollView>
+      </View> */}
       <FlatList
         data={tracks}
         renderItem={({ item, index }) => (
           <TrackItem track={item} index={index} />
         )}
       />
+      <Text style={styles.miniPlayer}>MiniPlayer</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   albumTitle: {
-    marginVertical: vmax(2),
+    marginTop: vmax(5),
+    marginBottom: vmax(2),
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 18,
+  },
+
+  tracklist: {
+    flex: 1,
+    // justifyContent: "flex-end"
+  },
+
+  container: {
+    flex: 1,
+    // justifyContent: "flex-end",
+    // alignItems: "center"
+  },
+
+  miniPlayer: {
+    alignSelf: "center",
   },
 });
 

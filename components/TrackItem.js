@@ -1,7 +1,8 @@
 import * as React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground } from "react-native";
 import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 import PropTypes from "prop-types";
+import { MaterialIcons } from "@expo/vector-icons";
 
 // Redux stuff
 import { connect } from "react-redux";
@@ -10,7 +11,7 @@ import {
   handlePlayPauseAction,
   handleChangeTrackAction,
   setCurrentPositionWithTimer,
-  setCurrentPosition
+  setCurrentPosition,
 } from "../redux/mediaActions";
 
 const TrackItem = ({
@@ -30,6 +31,10 @@ const TrackItem = ({
   const { uri, imageSource, title, author, durationText } = track;
 
   const handlePlayPause = async () => {
+
+    console.log("Test TrackItem handlePlayPause");
+    // console.log('TrackItem handlePlayPause playbackInstance :>> ', playbackInstance);
+
     try {
       if (playbackInstance) {
         const currentPositionMilliseconds = currentPosition * 1000;
@@ -72,12 +77,34 @@ const TrackItem = ({
   return (
     <View>
       <TouchableOpacity style={styles.container} onPress={handlePlayPause}>
-        <Image
+      <ImageBackground
           style={styles.albumCover}
           source={{
             uri: imageSource,
           }}
-        />
+        >
+          {isPlaying ? (
+          <MaterialIcons
+            name="pause"
+            size={vmax(8)}
+            style={styles.materialPicture}
+          />
+        ) : (
+          <MaterialIcons
+            name="play-arrow"
+            size={vmax(8)}
+            style={styles.materialPicture}
+          />
+        )}
+      </ImageBackground>
+
+        {/* <Image
+          style={styles.albumCover}
+          source={{
+            uri: imageSource,
+          }}
+        /> */}
+
         <View style={styles.info}>
           <Text style={styles.authorTitle}>{author}</Text>
           <Text style={styles.trackTitle}>{title}</Text>
@@ -98,7 +125,8 @@ const styles = StyleSheet.create({
   albumCover: {
     width: vmax(8),
     height: vmax(8),
-    marginLeft: vmax(1)
+    marginLeft: vmax(1),
+    opacity: 1,
   },
 
   trackTitle: {
@@ -112,19 +140,22 @@ const styles = StyleSheet.create({
   },
 
   info: {
-    flex:1,
-    alignItems: "center"
+    flex: 1,
+    alignItems: "center",
   },
 
   durationText: {
-    paddingRight: vmax(2)
+    paddingRight: vmax(2),
   },
 
   separator: {
-    margin: 2,
-    borderWidth: 0.5
-  }
+    margin: 1,
+    borderWidth: 0.5,
+  },
 
+  materialPicture: {
+    // opacity: 0.5,
+  },
 });
 
 TrackItem.propTypes = {
