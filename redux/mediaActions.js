@@ -129,8 +129,8 @@ export const setCurrentPositionWithTimer = (value) => (dispatch) => {
   const timerId = setInterval(() => {
     value += 1;
     dispatch({ type: SET_CURRENT_POSITIION, payload: value });
-    console.log("mediaActions setCurrentPositionWithTimer currentPosition :>> ", value);
+    // console.log("mediaActions setCurrentPositionWithTimer currentPosition :>> ", value);
   }, 1000);
-  console.log("mediaActions setCurrentPositionWithTimer timerId :>> ", value);
+  // console.log("mediaActions setCurrentPositionWithTimer timerId :>> ", value);
   dispatch({ type: SET_TIMER, payload: timerId });
 };

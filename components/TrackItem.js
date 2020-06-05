@@ -1,5 +1,12 @@
 import * as React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  ImageBackground,
+} from "react-native";
 import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 import PropTypes from "prop-types";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -31,7 +38,6 @@ const TrackItem = ({
   const { uri, imageSource, title, author, durationText } = track;
 
   const handlePlayPause = async () => {
-
     console.log("Test TrackItem handlePlayPause");
     // console.log('TrackItem handlePlayPause playbackInstance :>> ', playbackInstance);
 
@@ -39,13 +45,41 @@ const TrackItem = ({
       if (playbackInstance) {
         const currentPositionMilliseconds = currentPosition * 1000;
 
-        if (index != currentIndex) {
+        if (index == currentIndex) {
+          if (isPlaying) {
+            console.log("Test TrackItem isPlaying=true index == currentIndex");
+            await playbackInstance.pauseAsync();
+            if (timerId) {
+              //   console.log("Controls handlePlayPause test");
+              clearTimeout(timerId);
+            }
+            handlePlayPauseAction(isPlaying);
+          } else {
+            console.log("Test TrackItem isPlaying=false index == currentIndex");
+            await playbackInstance.playFromPositionAsync(
+              currentPositionMilliseconds
+            );
+            setCurrentPositionWithTimer(currentPosition);
+            handlePlayPauseAction(isPlaying);
+          }
+        } else {
+          console.log("Test TrackItem index != currentIndex");
           await playbackInstance.unloadAsync();
+          if (timerId) clearTimeout(timerId);
           handleChangeTrackAction(index);
           setCurrentPosition(0);
-          handlePlayPauseAction(isPlaying);
-          await loadAudio(uri, isPlaying);
+          handlePlayPauseAction(false);
+          loadAudio(uri, true);
+          setCurrentPositionWithTimer(currentPosition);
         }
+
+        // if (index != currentIndex) {
+        //   await playbackInstance.unloadAsync();
+        //   handleChangeTrackAction(index);
+        //   setCurrentPosition(0);
+        //   handlePlayPauseAction(isPlaying);
+        //   await loadAudio(uri, isPlaying);
+        // }
 
         // console.log(
         //   "Controls handlePlayPause currentPosition in milliseconds :>> ",
@@ -54,49 +88,89 @@ const TrackItem = ({
 
         // console.log("Controls handlePlayPause timerId :>> ", timerId);
 
-        if (isPlaying) {
-          await playbackInstance.pauseAsync();
-          if (timerId) {
-            //   console.log("Controls handlePlayPause test");
-            clearTimeout(timerId);
-          }
-        } else {
-          await playbackInstance.playFromPositionAsync(
-            currentPositionMilliseconds
-          );
-          setCurrentPositionWithTimer(currentPosition);
-        }
+        // if (isPlaying) {
+        //   await playbackInstance.pauseAsync();
+        //   if (timerId) {
+        //     //   console.log("Controls handlePlayPause test");
+        //     clearTimeout(timerId);
+        //   }
+        // } else {
+        //   await playbackInstance.playFromPositionAsync(
+        //     currentPositionMilliseconds
+        //   );
+        //   setCurrentPositionWithTimer(currentPosition);
+        // }
 
-        handlePlayPauseAction(isPlaying);
+        // handlePlayPauseAction(isPlaying);
       }
     } catch (e) {
       console.log(e);
     }
   };
 
+  const imageTrackItem =
+    index != currentIndex ? (
+      <Image
+        style={styles.albumCover}
+        source={{
+          uri: imageSource,
+        }}
+      />
+    ) : isPlaying ? (
+      <ImageBackground
+        style={styles.albumCover}
+        imageStyle={styles.imageBackgroundStyle}
+        source={{
+          uri: imageSource,
+        }}
+      >
+        <MaterialIcons
+          name="pause"
+          size={vmax(8)}
+          style={styles.materialPicture}
+        />
+      </ImageBackground>
+    ) : (
+      <ImageBackground
+        style={styles.albumCover}
+        imageStyle={styles.imageBackgroundStyle}
+        source={{
+          uri: imageSource,
+        }}
+      >
+        <MaterialIcons
+          name="play-arrow"
+          size={vmax(8)}
+          style={styles.materialPicture}
+        />
+      </ImageBackground>
+    );
+
   return (
     <View>
       <TouchableOpacity style={styles.container} onPress={handlePlayPause}>
-      <ImageBackground
+        {imageTrackItem}
+
+        {/* <ImageBackground
           style={styles.albumCover}
           source={{
             uri: imageSource,
           }}
         >
           {isPlaying ? (
-          <MaterialIcons
-            name="pause"
-            size={vmax(8)}
-            style={styles.materialPicture}
-          />
-        ) : (
-          <MaterialIcons
-            name="play-arrow"
-            size={vmax(8)}
-            style={styles.materialPicture}
-          />
-        )}
-      </ImageBackground>
+            <MaterialIcons
+              name="pause"
+              size={vmax(8)}
+              style={styles.materialPicture}
+            />
+          ) : (
+            <MaterialIcons
+              name="play-arrow"
+              size={vmax(8)}
+              style={styles.materialPicture}
+            />
+          )}
+        </ImageBackground> */}
 
         {/* <Image
           style={styles.albumCover}
@@ -149,12 +223,17 @@ const styles = StyleSheet.create({
   },
 
   separator: {
-    margin: 1,
+    margin: 1.5,
     borderWidth: 0.5,
   },
 
   materialPicture: {
-    // opacity: 0.5,
+    color: "#2f712f",
+    opacity: 1,
+  },
+
+  imageBackgroundStyle: {
+    opacity: 0.5,
   },
 });
 
