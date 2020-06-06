@@ -16,6 +16,7 @@ import { connect } from "react-redux";
 import { loadAudio } from "../redux/mediaActions";
 
 import TrackItem from "./TrackItem";
+import MiniPlayer from "./MiniPlayer";
 
 const TrackList = ({ tracks, currentIndex, isPlaying, loadAudio }) => {
   // React.useEffect(() => {
@@ -45,7 +46,7 @@ const TrackList = ({ tracks, currentIndex, isPlaying, loadAudio }) => {
           <TrackItem track={item} index={index} />
         )}
       />
-      <Text style={styles.miniPlayer}>MiniPlayer</Text>
+      <Text style={styles.miniPlayer}><MiniPlayer /></Text>
     </View>
   );
 };
