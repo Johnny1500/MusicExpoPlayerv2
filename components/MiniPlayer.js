@@ -56,13 +56,14 @@ const styles = StyleSheet.create({
 
   materialPicture: {
     color: "#2f712f",
+    paddingLeft: vmax(1)
   },
 });
 
-PlayerMini.propTypes = {
+MiniPlayer.propTypes = {
   currentIndex: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool.isRequired,
-  tracks: state.array.isRequired,
+  tracks: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -71,4 +72,4 @@ const mapStateToProps = (state) => ({
   isPlaying: state.isPlaying,
 });
 
-export default connect(mapStateToProps, mapActionsToProps)(MiniPlayer);
+export default connect(mapStateToProps)(MiniPlayer);

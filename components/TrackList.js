@@ -28,14 +28,14 @@ const TrackList = ({ tracks, currentIndex, isPlaying, loadAudio }) => {
   // }, []);
 
   const { album } = tracks[currentIndex];
-  const trackListMarkup = tracks.map((track, index) => (
-    <TrackItem track={track} index={index} key={track.id} />
-  ));
+  // const trackListMarkup = tracks.map((track, index) => (
+  //   <TrackItem track={track} index={index} key={track.id} />
+  // ));
 
   return (
     <View style={styles.container}>
       {/* <View> */}
-        <Text style={styles.albumTitle}>{album}</Text>
+      <Text style={styles.albumTitle}>{album}</Text>
       {/* </View> */}
       {/* <View style={styles.tracklist}>
         <ScrollView scrollEnabled={true}>{trackListMarkup}</ScrollView>
@@ -46,7 +46,9 @@ const TrackList = ({ tracks, currentIndex, isPlaying, loadAudio }) => {
           <TrackItem track={item} index={index} />
         )}
       />
-      <Text style={styles.miniPlayer}><MiniPlayer /></Text>
+      <View>
+        <MiniPlayer />
+      </View>
     </View>
   );
 };
