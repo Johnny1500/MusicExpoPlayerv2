@@ -10,7 +10,7 @@ import {
 import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 import PropTypes from "prop-types";
 import { MaterialIcons } from "@expo/vector-icons";
-import Svg, { Circle, Rect } from 'react-native-svg';
+import Svg, { Circle, Rect } from "react-native-svg";
 
 // Redux stuff
 import { connect } from "react-redux";
@@ -95,8 +95,8 @@ const TrackItem = ({
           uri: imageSource,
         }}
       >
-        <Svg height="50%" width="50%" viewBox="0 0 100 100">
-        <Circle cx="50" cy="50" r="5" fill="green" />
+        <Svg height="100%" width="100%">
+          <Circle cx={vmax(4)} cy={vmax(4)} r={vmax(2)} fill="green" />
         </Svg>
         {/* <MaterialIcons
           name="pause"
