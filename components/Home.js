@@ -4,6 +4,7 @@ import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 import { Audio } from "expo-av";
 import * as ScreenOrientation from 'expo-screen-orientation';
 
+
 // Redux stuff
 import { connect } from "react-redux";
 import { setTracks, setPhoneOrientation } from "../redux/mediaActions";
@@ -67,6 +68,7 @@ const styles = StyleSheet.create({
   containerControl: {
     flex: 1,
     justifyContent: "center",
+    // alignItems: "center",
   },
 });
 

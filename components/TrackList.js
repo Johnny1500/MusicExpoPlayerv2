@@ -58,7 +58,7 @@ const TrackList = ({ tracks, currentIndex, isPlaying, loadAudio }) => {
 
 const styles = StyleSheet.create({
   albumTitle: {
-    marginTop: vmax(5),
+    marginTop: vmax(2),
     marginBottom: vmax(2),
     fontWeight: "bold",
     textAlign: "center",

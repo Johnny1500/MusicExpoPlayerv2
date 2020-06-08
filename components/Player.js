@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
 
   albumTitle: {
-    marginBottom: vmax(3),
+    marginBottom: vmax(2),
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 18,
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
 
   trackTitle: {
-    marginTop: vmax(5),
+    marginTop: vmax(2),
     fontWeight: "bold",
     fontSize: 20,
     color: "#1e481e",
