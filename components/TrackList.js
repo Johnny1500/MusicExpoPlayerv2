@@ -18,14 +18,12 @@ import { loadAudio } from "../redux/mediaActions";
 import TrackItem from "./TrackItem";
 import MiniPlayer from "./MiniPlayer";
 
-const TrackList = ({ tracks, currentIndex, isPlaying, loadAudio }) => {
-  // React.useEffect(() => {
-  //   console.log("TrackList useEffect tracks :>> ", tracks);
-  //   const { uri } = tracks[currentIndex];
-  //   console.log("TrackList useEffect uri :>> ", uri);
-  //   console.log("TrackList useEffect isPlaying :>> ", isPlaying);
-  //   loadAudio(uri, isPlaying);
-  // }, []);
+const TrackList = ({ tracks, currentIndex, shuffledTimes, isPlaying, loadAudio }) => {
+  React.useEffect(() => {
+    
+    console.log('TrackList useEffect shuffledTimes :>> ', shuffledTimes);
+
+  }, [shuffledTimes]);
 
   const { album } = tracks[currentIndex];
   // const trackListMarkup = tracks.map((track, index) => (
@@ -89,12 +87,14 @@ const mapStateToProps = (state) => ({
   tracks: state.tracks,
   currentIndex: state.currentIndex,
   isPlaying: state.isPlaying,
+  shuffledTimes: state.shuffledTimes
 });
 
 TrackList.propTypes = {
   tracks: PropTypes.array.isRequired,
   currentIndex: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool.isRequired,
+  shuffledTimes: PropTypes.number.isRequired
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(TrackList);
