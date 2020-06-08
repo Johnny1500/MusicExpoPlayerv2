@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import PropTypes from "prop-types";
 import { MaterialIcons } from "@expo/vector-icons";

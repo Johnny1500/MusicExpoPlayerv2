@@ -40,12 +40,14 @@ const TrackList = ({ tracks, currentIndex, isPlaying, loadAudio }) => {
       {/* <View style={styles.tracklist}>
         <ScrollView scrollEnabled={true}>{trackListMarkup}</ScrollView>
       </View> */}
-      <FlatList
-        data={tracks}
-        renderItem={({ item, index }) => (
-          <TrackItem track={item} index={index} />
-        )}
-      />
+      <View style={styles.tracklist}>
+        <FlatList
+          data={tracks}
+          renderItem={({ item, index }) => (
+            <TrackItem track={item} index={index} />
+          )}
+        />
+      </View>
       <MiniPlayer />
       {/* <View>
         <MiniPlayer />
