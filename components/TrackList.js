@@ -46,9 +46,10 @@ const TrackList = ({ tracks, currentIndex, isPlaying, loadAudio }) => {
           <TrackItem track={item} index={index} />
         )}
       />
-      <View>
+      <MiniPlayer />
+      {/* <View>
         <MiniPlayer />
-      </View>
+      </View> */}
     </View>
   );
 };
