@@ -29,18 +29,7 @@ const Controls = ({
   timerId,
   setCurrentPositionWithTimer,
 }) => {
-  // React.useEffect(() => {
-  //   // console.log("Controls2 useEffect tracks :>> ", tracks);
-  //   const { uri } = tracks[currentIndex];
-  //   // console.log("Controls2 useEffect uri :>> ", uri);
-  //   // console.log("Controls2 useEffectisPlaying :>> ", isPlaying);
-  //   loadAudio(uri, isPlaying);
- 
-  // }, []);
-
-  // const { imageSource, author, title } = tracks[currentIndex];
-  // console.log("Controls2 imageSource :>> ", imageSource);
-
+  
   const handlePlayPause = async () => {
     try {
       const currentPositionMilliseconds = currentPosition * 1000;

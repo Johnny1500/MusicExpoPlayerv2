@@ -11,6 +11,7 @@ import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 import PropTypes from "prop-types";
 import { MaterialIcons } from "@expo/vector-icons";
 import Svg, { Circle, Rect } from "react-native-svg";
+import PulseCircle from './PulseCircle'
 
 // Redux stuff
 import { connect } from "react-redux";
@@ -38,8 +39,25 @@ const TrackItem = ({
 }) => {
   const { uri, imageSource, title, author, durationText } = track;
 
+  // const circleTimer = () => {
+    
+  //   let tick = false;
+
+  //   setInterval(() => {
+  //     if (tick) {
+  //       console.log('Test Track Item setInterval 30');
+  //       tick = false;
+  //       return 30;
+  //     } else {
+  //       console.log('Test Track Item setInterval 20');
+  //       tick = true;
+  //       return 20;
+  //     }
+  //   }, 3000)
+  // };
+
   const handlePlayPause = async () => {
-    console.log("Test TrackItem handlePlayPause");
+    // console.log("Test TrackItem handlePlayPause");
     // console.log('TrackItem handlePlayPause playbackInstance :>> ', playbackInstance);
 
     try {
@@ -48,7 +66,7 @@ const TrackItem = ({
 
         if (index == currentIndex) {
           if (isPlaying) {
-            console.log("Test TrackItem isPlaying=true index == currentIndex");
+            // console.log("Test TrackItem isPlaying=true index == currentIndex");
             await playbackInstance.pauseAsync();
             if (timerId) {
               //   console.log("Controls handlePlayPause test");
@@ -56,7 +74,7 @@ const TrackItem = ({
             }
             handlePlayPauseAction(isPlaying);
           } else {
-            console.log("Test TrackItem isPlaying=false index == currentIndex");
+            // console.log("Test TrackItem isPlaying=false index == currentIndex");
             await playbackInstance.playFromPositionAsync(
               currentPositionMilliseconds
             );
@@ -64,7 +82,7 @@ const TrackItem = ({
             handlePlayPauseAction(isPlaying);
           }
         } else {
-          console.log("Test TrackItem index != currentIndex");
+          // console.log("Test TrackItem index != currentIndex");
           await playbackInstance.unloadAsync();
           if (timerId) clearTimeout(timerId);
           handleChangeTrackAction(index);
@@ -95,9 +113,10 @@ const TrackItem = ({
           uri: imageSource,
         }}
       >
-        <Svg height="100%" width="100%">
-          <Circle cx={vmax(4)} cy={vmax(4)} r={vmax(2)} fill="green" />
-        </Svg>
+        <PulseCircle />
+        {/* <Svg height="100%" width="100%">
+          <Circle cx={vmax(4)} cy={vmax(4)} r='10' fill="green" />
+        </Svg> */}
         {/* <MaterialIcons
           name="pause"
           size={vmax(8)}
