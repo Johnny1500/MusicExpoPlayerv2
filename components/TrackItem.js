@@ -10,6 +10,7 @@ import {
 import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 import PropTypes from "prop-types";
 import { MaterialIcons } from "@expo/vector-icons";
+import Svg, { Circle, Rect } from 'react-native-svg';
 
 // Redux stuff
 import { connect } from "react-redux";
@@ -72,36 +73,6 @@ const TrackItem = ({
           loadAudio(uri, true);
           setCurrentPositionWithTimer(currentPosition);
         }
-
-        // if (index != currentIndex) {
-        //   await playbackInstance.unloadAsync();
-        //   handleChangeTrackAction(index);
-        //   setCurrentPosition(0);
-        //   handlePlayPauseAction(isPlaying);
-        //   await loadAudio(uri, isPlaying);
-        // }
-
-        // console.log(
-        //   "Controls handlePlayPause currentPosition in milliseconds :>> ",
-        //   currentPositionMilliseconds
-        // );
-
-        // console.log("Controls handlePlayPause timerId :>> ", timerId);
-
-        // if (isPlaying) {
-        //   await playbackInstance.pauseAsync();
-        //   if (timerId) {
-        //     //   console.log("Controls handlePlayPause test");
-        //     clearTimeout(timerId);
-        //   }
-        // } else {
-        //   await playbackInstance.playFromPositionAsync(
-        //     currentPositionMilliseconds
-        //   );
-        //   setCurrentPositionWithTimer(currentPosition);
-        // }
-
-        // handlePlayPauseAction(isPlaying);
       }
     } catch (e) {
       console.log(e);
@@ -124,11 +95,14 @@ const TrackItem = ({
           uri: imageSource,
         }}
       >
-        <MaterialIcons
+        <Svg height="50%" width="50%" viewBox="0 0 100 100">
+        <Circle cx="50" cy="50" r="5" fill="green" />
+        </Svg>
+        {/* <MaterialIcons
           name="pause"
           size={vmax(8)}
           style={styles.materialPicture}
-        />
+        /> */}
       </ImageBackground>
     ) : (
       <ImageBackground
@@ -150,35 +124,6 @@ const TrackItem = ({
     <View>
       <TouchableOpacity style={styles.container} onPress={handlePlayPause}>
         {imageTrackItem}
-
-        {/* <ImageBackground
-          style={styles.albumCover}
-          source={{
-            uri: imageSource,
-          }}
-        >
-          {isPlaying ? (
-            <MaterialIcons
-              name="pause"
-              size={vmax(8)}
-              style={styles.materialPicture}
-            />
-          ) : (
-            <MaterialIcons
-              name="play-arrow"
-              size={vmax(8)}
-              style={styles.materialPicture}
-            />
-          )}
-        </ImageBackground> */}
-
-        {/* <Image
-          style={styles.albumCover}
-          source={{
-            uri: imageSource,
-          }}
-        /> */}
-
         <View style={styles.info}>
           <Text style={styles.authorTitle}>{author}</Text>
           <Text style={styles.trackTitle}>{title}</Text>
