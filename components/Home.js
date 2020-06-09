@@ -1,17 +1,14 @@
+// React stuff
 import * as React from "react";
 import { ActivityIndicator, StyleSheet, View, Text } from "react-native";
-import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 import { Audio } from "expo-av";
-import * as ScreenOrientation from 'expo-screen-orientation';
-
+import * as ScreenOrientation from "expo-screen-orientation";
 
 // Redux stuff
 import { connect } from "react-redux";
 import { setTracks, setPhoneOrientation } from "../redux/mediaActions";
 
-// import Controls from "./Controls";
-import Player from "./Player";
-import TrackList from './TrackList';
+import TrackList from "./TrackList";
 
 const Home = ({ loading, setTracks, setPhoneOrientation }) => {
   React.useEffect(() => {
@@ -32,14 +29,10 @@ const Home = ({ loading, setTracks, setPhoneOrientation }) => {
 
     fetchData();
 
-    // console.log('Home ScreenOrientation :>> ', ScreenOrientation);
-
     ScreenOrientation.addOrientationChangeListener(async () => {
       let orientation = await ScreenOrientation.getOrientationAsync();
-      // console.log('Home orientation :>> ', orientation);
       setPhoneOrientation(orientation);
-    })
-
+    });
   }, []);
 
   let markup = !loading ? (
@@ -68,13 +61,12 @@ const styles = StyleSheet.create({
   containerControl: {
     flex: 1,
     justifyContent: "center",
-    // alignItems: "center",
   },
 });
 
 const mapActionsToProps = {
   setTracks,
-  setPhoneOrientation
+  setPhoneOrientation,
 };
 
 const mapStateToProps = (state) => ({

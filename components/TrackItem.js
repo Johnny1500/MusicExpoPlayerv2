@@ -1,3 +1,4 @@
+// React stuff
 import * as React from "react";
 import {
   StyleSheet,
@@ -39,24 +40,16 @@ const TrackItem = ({
   const { uri, imageSource, title, author, durationText } = track;
 
   const handlePlayPause = async () => {
-    // console.log("Test TrackItem handlePlayPause");
-    // console.log('TrackItem handlePlayPause playbackInstance :>> ', playbackInstance);
-
     try {
       if (playbackInstance) {
         const currentPositionMilliseconds = currentPosition * 1000;
 
         if (index == currentIndex) {
           if (isPlaying) {
-            // console.log("Test TrackItem isPlaying=true index == currentIndex");
             await playbackInstance.pauseAsync();
-            if (timerId) {
-              //   console.log("Controls handlePlayPause test");
-              clearTimeout(timerId);
-            }
+            if (timerId) clearTimeout(timerId);
             handlePlayPauseAction(isPlaying);
           } else {
-            // console.log("Test TrackItem isPlaying=false index == currentIndex");
             await playbackInstance.playFromPositionAsync(
               currentPositionMilliseconds
             );
@@ -64,7 +57,6 @@ const TrackItem = ({
             handlePlayPauseAction(isPlaying);
           }
         } else {
-          // console.log("Test TrackItem index != currentIndex");
           await playbackInstance.unloadAsync();
           if (timerId) clearTimeout(timerId);
           handleChangeTrackAction(index);

@@ -1,13 +1,5 @@
 import * as React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  FlatList,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
 import PropTypes from "prop-types";
 
@@ -18,26 +10,23 @@ import { loadAudio } from "../redux/mediaActions";
 import TrackItem from "./TrackItem";
 import MiniPlayer from "./MiniPlayer";
 
-const TrackList = ({ tracks, currentIndex, shuffledTimes, isPlaying, loadAudio }) => {
+const TrackList = ({
+  tracks,
+  currentIndex,
+  shuffledTimes,
+  isPlaying,
+  loadAudio,
+}) => {
   React.useEffect(() => {
-    
-    console.log('TrackList useEffect shuffledTimes :>> ', shuffledTimes);
-
+    console.log("TrackList useEffect shuffledTimes :>> ", shuffledTimes);
   }, [shuffledTimes]);
 
   const { album } = tracks[currentIndex];
-  // const trackListMarkup = tracks.map((track, index) => (
-  //   <TrackItem track={track} index={index} key={track.id} />
-  // ));
 
   return (
     <View style={styles.container}>
-      {/* <View> */}
       <Text style={styles.albumTitle}>{album}</Text>
-      {/* </View> */}
-      {/* <View style={styles.tracklist}>
-        <ScrollView scrollEnabled={true}>{trackListMarkup}</ScrollView>
-      </View> */}
+
       <View style={styles.tracklist}>
         <FlatList
           data={tracks}
@@ -47,9 +36,6 @@ const TrackList = ({ tracks, currentIndex, shuffledTimes, isPlaying, loadAudio }
         />
       </View>
       <MiniPlayer />
-      {/* <View>
-        <MiniPlayer />
-      </View> */}
     </View>
   );
 };
@@ -65,13 +51,10 @@ const styles = StyleSheet.create({
 
   tracklist: {
     flex: 1,
-    // justifyContent: "flex-end"
   },
 
   container: {
     flex: 1,
-    // justifyContent: "flex-end",
-    // alignItems: "center"
   },
 
   miniPlayer: {
@@ -87,14 +70,14 @@ const mapStateToProps = (state) => ({
   tracks: state.tracks,
   currentIndex: state.currentIndex,
   isPlaying: state.isPlaying,
-  shuffledTimes: state.shuffledTimes
+  shuffledTimes: state.shuffledTimes,
 });
 
 TrackList.propTypes = {
   tracks: PropTypes.array.isRequired,
   currentIndex: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool.isRequired,
-  shuffledTimes: PropTypes.number.isRequired
+  shuffledTimes: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(TrackList);

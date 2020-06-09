@@ -10,15 +10,9 @@ import Controls from "./Controls";
 import Seekbar from "./Seekbar";
 
 const Player = ({ tracks, currentIndex, phoneOrientation, shuffledTimes }) => {
-  // React.useEffect(()=>{
-  //   console.log('Player useEffect tracks[currentIndex] :>> ', tracks[currentIndex]);
-  // },[tracks])
-
+  
   const { imageSource, album, title, author } = tracks[currentIndex];
-  // console.log('Player shuffledTimes :>> ', shuffledTimes);
-
-  // console.log('Player screenOrientation :>> ', screenOrientation);
-
+  
   return (
     <View
       style={
@@ -118,7 +112,7 @@ const styles = StyleSheet.create({
 
 Player.propTypes = {
   currentIndex: PropTypes.number.isRequired,
-  isPlaying: PropTypes.bool,
+  tracks: PropTypes.array.isRequired,
   phoneOrientation: PropTypes.number,
   shuffledTimes: PropTypes.number.isRequired,
 };

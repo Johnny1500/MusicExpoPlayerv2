@@ -1,3 +1,4 @@
+// React stuff
 import * as React from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
@@ -33,13 +34,7 @@ const Controls = ({
   const handlePlayPause = async () => {
     try {
       const currentPositionMilliseconds = currentPosition * 1000;
-      // console.log(
-      //   "Controls handlePlayPause currentPosition in milliseconds :>> ",
-      //   currentPositionMilliseconds
-      // );
-
-      console.log("Controls handlePlayPause timerId :>> ", timerId);
-
+  
       if (isPlaying) {
         await playbackInstance.pauseAsync();
         if (timerId) {
@@ -62,11 +57,7 @@ const Controls = ({
   const handlePreviousTrack = async () => {
     try {
       const amountOfTracks = tracks.length;
-      // console.log(
-      //   "Controls2 handlePreviousTrack amountOfTracks :>> ",
-      //   amountOfTracks
-      // );
-
+      
       if (playbackInstance) {
         await playbackInstance.unloadAsync();
 
@@ -79,15 +70,7 @@ const Controls = ({
         setCurrentPosition(0);
 
         const { uri } = tracks[currentIndex];
-        // console.log(
-        //   "Controls2 handlePreviousTrack tracks[currentIndex].uri :>> ",
-        //   uri
-        // );
-        // console.log(
-        //   "Controls2 handlePreviousTrack tracks[currentIndex].isPlaying :>> ",
-        //   isPlaying
-        // );
-
+        
         await loadAudio(uri, isPlaying);
         if (isPlaying) {
           currentPosition = 0;
@@ -102,11 +85,7 @@ const Controls = ({
   const handleNextTrack = async () => {
     try {
       const amountOfTracks = tracks.length;
-      // console.log(
-      //   "Controls2 handleNextTrack amountOfTracks :>> ",
-      //   amountOfTracks
-      // );
-
+     
       if (playbackInstance) {
         await playbackInstance.unloadAsync();
         currentIndex < amountOfTracks - 1
@@ -117,15 +96,7 @@ const Controls = ({
         setCurrentPosition(0);
 
         const { uri } = tracks[currentIndex];
-        // console.log(
-        //   "Controls2 handleNextTrack tracks[currentIndex].uri :>> ",
-        //   uri
-        // );
-        // console.log(
-        //   "Controls2 handleNextTrack tracks[currentIndex].isPlaying :>> ",
-        //   isPlaying
-        // );
-
+       
         await loadAudio(uri, isPlaying);
         if (isPlaying) {
           currentPosition = 0;
@@ -145,9 +116,14 @@ const Controls = ({
           let j = Math.floor(Math.random() * (i + 1));
           [tracks[i], tracks[j]] = [tracks[j], tracks[i]];
         }
+        // Перенести в utils
         shuffleTracks(tracks);
         if (timerId) clearTimeout(timerId);
-        setCurrentPosition(0);
+        if (isPlaying) {
+          setCurrentPositionWithTimer(0)
+        } else {
+          setCurrentPosition(0);
+        }
         const { uri } = tracks[currentIndex];
         console.log(
           "Controls handleShuffleTracks tracks[currentIndex] :>> ",
@@ -167,7 +143,11 @@ const Controls = ({
         tracks.reverse();
         shuffleTracks(tracks);
         if (timerId) clearTimeout(timerId);
-        setCurrentPosition(0);
+        if (isPlaying) {
+          setCurrentPositionWithTimer(0)
+        } else {
+          setCurrentPosition(0);
+        }
         const { uri } = tracks[currentIndex];
         console.log(
           "Controls handleShuffleTracks tracks[currentIndex] :>> ",

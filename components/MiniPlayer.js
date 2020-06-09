@@ -1,3 +1,4 @@
+// React stuff
 import * as React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import PropTypes from "prop-types";
