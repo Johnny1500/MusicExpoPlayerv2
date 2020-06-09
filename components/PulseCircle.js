@@ -1,29 +1,21 @@
 import * as React from "react";
-import Svg, { Circle, Rect } from "react-native-svg";
-import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
+import Svg, { Circle } from "react-native-svg";
+import { vmax } from "react-native-expo-viewport-units";
 
 const PulseCircle = () => {
-  // const [tick, setTick] = React.useState(false);
-  const [radius, setRadius] = React.useState(9);
- 
-  console.log("PulseCircle radius :>> ", radius);
-  // console.log("PulseCircle tick :>> ", tick);
-
+  const [radius, setRadius] = React.useState(Math.floor(vmax(1.2)));
+  
   let tick;
 
   React.useEffect(() => {
-    // console.log("PulseCircle radius :>> ", radius);
-    // console.log("PulseCircle tick :>> ", tick);
-
-    let timer = setInterval(() => {
+    const timer = setInterval(() => {
       if (tick) {
-        setRadius((radius) => radius - 2);
+        setRadius(Math.floor(vmax(1.2)));
         tick = !tick;
       } else {
-        setRadius((radius) => radius + 2);
+        setRadius(Math.floor(vmax(1.4)));
         tick = !tick;
       }
-      // setTick((tick) => !tick);
     }, 250);
 
     return () => {

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
-import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
+import { vmax } from "react-native-expo-viewport-units";
+import PropTypes from "prop-types";
 
 // Redux stuff
 import { connect } from "react-redux";
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
   },
 
   albumTitle: {
-    marginBottom: vmax(2),
+    marginVertical: vmax(1),
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 18,
@@ -114,6 +115,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+Player.propTypes = {
+  currentIndex: PropTypes.number.isRequired,
+  isPlaying: PropTypes.bool,
+  phoneOrientation: PropTypes.number,
+  shuffledTimes: PropTypes.number.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   tracks: state.tracks,

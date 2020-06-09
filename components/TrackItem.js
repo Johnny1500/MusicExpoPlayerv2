@@ -7,11 +7,10 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
-import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
+import { vmax } from "react-native-expo-viewport-units";
 import PropTypes from "prop-types";
 import { MaterialIcons } from "@expo/vector-icons";
-import Svg, { Circle, Rect } from "react-native-svg";
-import PulseCircle from './PulseCircle'
+import PulseCircle from "./PulseCircle";
 
 // Redux stuff
 import { connect } from "react-redux";
@@ -38,23 +37,6 @@ const TrackItem = ({
   handlePlayPauseAction,
 }) => {
   const { uri, imageSource, title, author, durationText } = track;
-
-  // const circleTimer = () => {
-    
-  //   let tick = false;
-
-  //   setInterval(() => {
-  //     if (tick) {
-  //       console.log('Test Track Item setInterval 30');
-  //       tick = false;
-  //       return 30;
-  //     } else {
-  //       console.log('Test Track Item setInterval 20');
-  //       tick = true;
-  //       return 20;
-  //     }
-  //   }, 3000)
-  // };
 
   const handlePlayPause = async () => {
     // console.log("Test TrackItem handlePlayPause");
@@ -114,14 +96,6 @@ const TrackItem = ({
         }}
       >
         <PulseCircle />
-        {/* <Svg height="100%" width="100%">
-          <Circle cx={vmax(4)} cy={vmax(4)} r='10' fill="green" />
-        </Svg> */}
-        {/* <MaterialIcons
-          name="pause"
-          size={vmax(8)}
-          style={styles.materialPicture}
-        /> */}
       </ImageBackground>
     ) : (
       <ImageBackground

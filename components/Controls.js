@@ -1,8 +1,9 @@
 import * as React from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
+import PropTypes from "prop-types";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SimpleLineIcons } from "@expo/vector-icons";
-import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
+import { vmax } from "react-native-expo-viewport-units";
 
 // Redux stuff
 import { connect } from "react-redux";
@@ -29,7 +30,6 @@ const Controls = ({
   timerId,
   setCurrentPositionWithTimer,
 }) => {
-  
   const handlePlayPause = async () => {
     try {
       const currentPositionMilliseconds = currentPosition * 1000;
@@ -51,21 +51,8 @@ const Controls = ({
           currentPositionMilliseconds
         );
         setCurrentPositionWithTimer(currentPosition);
-        // const timerId = setInterval(() => {
-        //   currentPosition += 1;
-        //   // console.log(
-        //   //   "Controls handlePlayPause currentPosition :>> ",
-        //   //   currentPosition
-        //   // );
-        //   setCurrentPosition(currentPosition);
-        // }, 1000);
-
-        // setTimer(timerId);
       }
 
-      // isPlaying
-      //   ? await playbackInstance.pauseAsync()
-      //   : await playbackInstance.playFromPositionAsync(currentPositionMilliseconds);
       handlePlayPauseAction(isPlaying);
     } catch (e) {
       console.log(e);
@@ -105,20 +92,7 @@ const Controls = ({
         if (isPlaying) {
           currentPosition = 0;
           setCurrentPositionWithTimer(currentPosition);
-          // currentPosition = 0;
-          // const timerId = setInterval(() => {
-          //   currentPosition += 1;
-          //   // console.log(
-          //   //   "Controls handlePlayPause currentPosition :>> ",
-          //   //   currentPosition
-          //   // );
-          //   setCurrentPosition(currentPosition);
-          // }, 1000);
-
-          // setTimer(timerId);
         }
-
-        // console.log("window.loadAudio :>> ", window.loadAudio);
       }
     } catch (e) {
       console.log(e);
@@ -156,16 +130,6 @@ const Controls = ({
         if (isPlaying) {
           currentPosition = 0;
           setCurrentPositionWithTimer(currentPosition);
-          // const timerId = setInterval(() => {
-          //   currentPosition += 1;
-          //   // console.log(
-          //   //   "Controls handlePlayPause currentPosition :>> ",
-          //   //   currentPosition
-          //   // );
-          //   setCurrentPosition(currentPosition);
-          // }, 1000);
-
-          // setTimer(timerId);
         }
       }
     } catch (e) {
@@ -293,6 +257,15 @@ const mapActionsToProps = {
   shuffleTracks,
   setCurrentPosition,
   setCurrentPositionWithTimer,
+};
+
+Controls.propTypes = {
+  currentIndex: PropTypes.number.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
+  tracks: PropTypes.array.isRequired,
+  playbackInstance: PropTypes.object.isRequired,
+  currentPosition: PropTypes.number.isRequired,
+  timerId: PropTypes.number
 };
 
 const mapStateToProps = (state) => ({
