@@ -12,6 +12,9 @@
     ],
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "splash": {
+      "image": "./assets/splash.png"
+    }
   }
 }

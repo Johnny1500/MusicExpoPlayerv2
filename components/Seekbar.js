@@ -1,3 +1,4 @@
+// React stuff
 import React from "react";
 import { Slider } from "react-native-elements";
 import { StyleSheet, Text, View } from "react-native";
@@ -10,7 +11,7 @@ import {
   handlePlayPauseAction,
   setCurrentPositionWithTimer,
   handleChangeTrackAction,
-  loadAudio,
+  loadAudio
 } from "../redux/mediaActions";
 
 export const Seekbar = ({
@@ -23,14 +24,11 @@ export const Seekbar = ({
   timerId,
   setCurrentPositionWithTimer,
   handleChangeTrackAction,
-  loadAudio,
+  loadAudio
 }) => {
   const { duration } = tracks[currentIndex];
-  console.log("Seekbar currentPosition :>> ", currentPosition);
-  console.log("Seekbar duration :>> ", duration);
 
   let sliderValue = Math.round((currentPosition / duration) * 100) / 100;
-  console.log("Seekbar sliderValue", sliderValue);
 
   React.useEffect(() => {
     async function handleNextTrack() {
@@ -79,15 +77,7 @@ export const Seekbar = ({
   };
 
   const onSeek = async () => {
-    console.log(
-      "Seekbar onSeek currentPosition in seconds:>> ",
-      currentPosition
-    );
     const currentPositionMilliseconds = currentPosition * 1000;
-    console.log(
-      "Seekbar onSeek currentPosition in milliseconds :>> ",
-      currentPositionMilliseconds
-    );
 
     if (isPlaying) {
       await playbackInstance.playFromPositionAsync(currentPositionMilliseconds);
