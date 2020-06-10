@@ -31,16 +31,24 @@ const Controls = ({
   timerId,
   setCurrentPositionWithTimer,
 }) => {
+  async function _checkPlay () {
+    if (timerId) clearTimeout(timerId);
+    if (isPlaying) {
+      setCurrentPositionWithTimer(0);
+    } else {
+      setCurrentPosition(0);
+    }
+    const { uri } = tracks[currentIndex];
+    await loadAudio(uri, isPlaying);
+  };
+
   const handlePlayPause = async () => {
     try {
       const currentPositionMilliseconds = currentPosition * 1000;
-  
+
       if (isPlaying) {
         await playbackInstance.pauseAsync();
-        if (timerId) {
-          console.log("Controls handlePlayPause test");
-          clearTimeout(timerId);
-        }
+        if (timerId) clearTimeout(timerId);
       } else {
         await playbackInstance.playFromPositionAsync(
           currentPositionMilliseconds
@@ -57,7 +65,7 @@ const Controls = ({
   const handlePreviousTrack = async () => {
     try {
       const amountOfTracks = tracks.length;
-      
+
       if (playbackInstance) {
         await playbackInstance.unloadAsync();
 
@@ -65,17 +73,8 @@ const Controls = ({
           ? (currentIndex -= 1)
           : (currentIndex = amountOfTracks - 1);
 
-        if (timerId) clearTimeout(timerId);
         handleChangeTrackAction(currentIndex);
-        setCurrentPosition(0);
-
-        const { uri } = tracks[currentIndex];
-        
-        await loadAudio(uri, isPlaying);
-        if (isPlaying) {
-          currentPosition = 0;
-          setCurrentPositionWithTimer(currentPosition);
-        }
+        _checkPlay();
       }
     } catch (e) {
       console.log(e);
@@ -85,23 +84,14 @@ const Controls = ({
   const handleNextTrack = async () => {
     try {
       const amountOfTracks = tracks.length;
-     
+
       if (playbackInstance) {
         await playbackInstance.unloadAsync();
         currentIndex < amountOfTracks - 1
           ? (currentIndex += 1)
           : (currentIndex = 0);
-        if (timerId) clearTimeout(timerId);
         handleChangeTrackAction(currentIndex);
-        setCurrentPosition(0);
-
-        const { uri } = tracks[currentIndex];
-       
-        await loadAudio(uri, isPlaying);
-        if (isPlaying) {
-          currentPosition = 0;
-          setCurrentPositionWithTimer(currentPosition);
-        }
+        _checkPlay();
       }
     } catch (e) {
       console.log(e);
@@ -116,20 +106,9 @@ const Controls = ({
           let j = Math.floor(Math.random() * (i + 1));
           [tracks[i], tracks[j]] = [tracks[j], tracks[i]];
         }
-        // Перенести в utils
+
         shuffleTracks(tracks);
-        if (timerId) clearTimeout(timerId);
-        if (isPlaying) {
-          setCurrentPositionWithTimer(0)
-        } else {
-          setCurrentPosition(0);
-        }
-        const { uri } = tracks[currentIndex];
-        console.log(
-          "Controls handleShuffleTracks tracks[currentIndex] :>> ",
-          tracks[currentIndex]
-        );
-        loadAudio(uri, isPlaying);
+        _checkPlay();
       }
     } catch (e) {
       console.log(e);
@@ -142,18 +121,7 @@ const Controls = ({
         await playbackInstance.unloadAsync();
         tracks.reverse();
         shuffleTracks(tracks);
-        if (timerId) clearTimeout(timerId);
-        if (isPlaying) {
-          setCurrentPositionWithTimer(0)
-        } else {
-          setCurrentPosition(0);
-        }
-        const { uri } = tracks[currentIndex];
-        console.log(
-          "Controls handleShuffleTracks tracks[currentIndex] :>> ",
-          tracks[currentIndex]
-        );
-        loadAudio(uri, isPlaying);
+        _checkPlay();
       }
     } catch (e) {
       console.log(e);
@@ -245,7 +213,7 @@ Controls.propTypes = {
   tracks: PropTypes.array.isRequired,
   playbackInstance: PropTypes.object.isRequired,
   currentPosition: PropTypes.number.isRequired,
-  timerId: PropTypes.number
+  timerId: PropTypes.number,
 };
 
 const mapStateToProps = (state) => ({

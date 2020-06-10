@@ -9,18 +9,16 @@ import { useNavigation } from "@react-navigation/native";
 // Redux stuff
 import { connect } from "react-redux";
 
-const MiniPlayer = ({ tracks, currentIndex, isPlaying, playbackInstance }) => {
+const MiniPlayer = ({ tracks, currentIndex, isPlaying }) => {
   const { title, author } = tracks[currentIndex];
   const navigation = useNavigation();
 
-  const handleNavigation = async () => {
-    if (playbackInstance) await playbackInstance.unloadAsync();
-    navigation.navigate("MediaPlayer");
-  };
-
   return (
     <View>
-      <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("MediaPlayer")}>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() => navigation.navigate("MediaPlayer")}
+      >
         {isPlaying ? (
           <MaterialIcons
             name="pause-circle-filled"
@@ -74,14 +72,12 @@ MiniPlayer.propTypes = {
   currentIndex: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   tracks: PropTypes.array.isRequired,
-  playbackInstance: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   tracks: state.tracks,
   currentIndex: state.currentIndex,
   isPlaying: state.isPlaying,
-  playbackInstance: state.playbackInstance,
 });
 
 export default connect(mapStateToProps)(MiniPlayer);

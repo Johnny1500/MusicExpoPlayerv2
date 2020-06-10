@@ -1,3 +1,4 @@
+// React stuff
 import * as React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import { vmax } from "react-native-expo-viewport-units";

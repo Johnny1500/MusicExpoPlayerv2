@@ -1,6 +1,6 @@
 import * as React from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
-import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
+import { vmax } from "react-native-expo-viewport-units";
 import PropTypes from "prop-types";
 
 // Redux stuff

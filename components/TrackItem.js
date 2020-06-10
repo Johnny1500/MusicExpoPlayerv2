@@ -48,22 +48,20 @@ const TrackItem = ({
           if (isPlaying) {
             await playbackInstance.pauseAsync();
             if (timerId) clearTimeout(timerId);
-            handlePlayPauseAction(isPlaying);
           } else {
             await playbackInstance.playFromPositionAsync(
               currentPositionMilliseconds
             );
             setCurrentPositionWithTimer(currentPosition);
-            handlePlayPauseAction(isPlaying);
           }
+          handlePlayPauseAction(isPlaying);
         } else {
           await playbackInstance.unloadAsync();
           if (timerId) clearTimeout(timerId);
           handleChangeTrackAction(index);
-          setCurrentPosition(0);
           handlePlayPauseAction(false);
-          loadAudio(uri, true);
-          setCurrentPositionWithTimer(currentPosition);
+          await loadAudio(uri, true);
+          setCurrentPositionWithTimer(0);
         }
       }
     } catch (e) {

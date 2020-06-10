@@ -1,8 +1,12 @@
+// React stuff
 import "react-native-gesture-handler";
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { View } from "react-native";
+import { vmax } from "react-native-expo-viewport-units";
 
+// Redux stuff
 import { Provider } from "react-redux";
 import store from "./redux/store";
 
@@ -37,6 +41,7 @@ export default function App() {
             component={Player}
             options={{
               title: "MediaPlayer",
+              headerRight: () => (<View />)
             }}
           />
         </Stack.Navigator>
