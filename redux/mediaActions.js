@@ -31,7 +31,7 @@ export const setTracks = () => async (dispatch) => {
     const uri = res.data[0].uri;
 
     // console.log('res.data :>> ', res.data);
-    console.log('mediaActions setTracks uri :>> ', uri);
+    console.log("mediaActions setTracks uri :>> ", uri);
 
     const playbackInstance = new Audio.Sound();
 
@@ -80,16 +80,6 @@ export const loadAudio = (uri, isPlaying) => async (dispatch) => {
     console.log(e);
     dispatch({ type: LOADING_FAILED, message: e.message });
   }
-
-  // _onPlaybackStatusUpdate = playbackStatus => {
-  //   if(playbackStatus.isLoaded) {
-  //     // console.log('mediaActions _onPlaybackStatusUpdate track loaded');
-  //     // console.log('mediaActions _onPlaybackStatusUpdate track uri :>> ', playbackStatus.uri);
-  //     // console.log('mediaActions _onPlaybackStatusUpdate volume :>> ', playbackStatus.volume);
-  //   } else {
-  //     console.log(`Encountered a fatal error during playback: ${playbackStatus.error}`);
-  //   }
-  // }
 };
 
 export const handlePlayPauseAction = (isPlaying) => (dispatch) => {

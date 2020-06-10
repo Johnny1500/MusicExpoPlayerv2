@@ -19,8 +19,7 @@ import {
   loadAudio,
   handlePlayPauseAction,
   handleChangeTrackAction,
-  setCurrentPositionWithTimer,
-  setCurrentPosition,
+  setCurrentPositionWithTimer
 } from "../redux/mediaActions";
 
 const TrackItem = ({
@@ -32,7 +31,6 @@ const TrackItem = ({
   currentIndex,
   currentPosition,
   loadAudio,
-  setCurrentPosition,
   setCurrentPositionWithTimer,
   handleChangeTrackAction,
   handlePlayPauseAction,
@@ -180,7 +178,6 @@ const mapActionsToProps = {
   handleChangeTrackAction,
   handlePlayPauseAction,
   setCurrentPositionWithTimer,
-  setCurrentPosition,
 };
 
 const mapStateToProps = (state) => ({
