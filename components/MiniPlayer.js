@@ -9,7 +9,10 @@ import { useNavigation } from "@react-navigation/native";
 // Redux stuff
 import { connect } from "react-redux";
 
-const MiniPlayer = ({ tracks, currentIndex, isPlaying }) => {
+const MiniPlayer = ({ tracks, currentIndex, isPlaying, shuffledTimes }) => {
+  React.useEffect(() => {
+    // console.log("TrackList useEffect shuffledTimes :>> ", shuffledTimes);
+  }, [shuffledTimes]);
   const { title, author } = tracks[currentIndex];
   const navigation = useNavigation();
 
@@ -72,12 +75,14 @@ MiniPlayer.propTypes = {
   currentIndex: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   tracks: PropTypes.array.isRequired,
+  shuffledTimes: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   tracks: state.tracks,
   currentIndex: state.currentIndex,
   isPlaying: state.isPlaying,
+  shuffledTimes: state.shuffledTimes,
 });
 
 export default connect(mapStateToProps)(MiniPlayer);
