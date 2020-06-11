@@ -1,9 +1,9 @@
 {
-  "name": "MusicExpoPlayerv2",
-  "displayName": "MusicExpoPlayerv2",
+  "name": "MusicExpoPlayer",
+  "displayName": "MusicExpoPlayer",
   "expo": {
-    "name": "MusicExpoPlayerv2",
-    "slug": "MusicExpoPlayerv2",
+    "name": "MusicExpoPlayer",
+    "slug": "MusicExpoPlayer",
     "version": "1.0.0",
     "platforms": [
       "ios",
