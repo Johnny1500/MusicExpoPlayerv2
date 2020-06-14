@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import Controls from "./Controls";
 import Seekbar from "./Seekbar";
 
+// Player's screen
 const Player = ({ tracks, currentIndex, phoneOrientation, shuffledTimes }) => {
   
   const { imageSource, album, title, author } = tracks[currentIndex];

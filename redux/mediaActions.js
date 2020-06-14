@@ -39,7 +39,6 @@ export const setTracks = () => async (dispatch) => {
 
     dispatch({ type: SET_PLAYBACKINSTANCE, payload: playbackInstance });
     dispatch({ type: SET_TRACKS, payload: res.data });
-    console.log("mediaActions tracks have been loaded");
   } catch (e) {
     console.log(e);
     dispatch({ type: LOADING_FAILED, message: e.message });
@@ -93,6 +92,7 @@ export const setTimer = (value) => (dispatch) => {
   dispatch({ type: SET_TIMER, payload: value });
 };
 
+// Seekbar slider's current position, while playing tracks
 export const setCurrentPositionWithTimer = (value) => (dispatch) => {
   const timerId = setInterval(() => {
     value += 1;

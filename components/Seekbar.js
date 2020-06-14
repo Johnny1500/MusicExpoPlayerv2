@@ -14,6 +14,7 @@ import {
   loadAudio
 } from "../redux/mediaActions";
 
+// Seekbar slider
 export const Seekbar = ({
   tracks,
   currentIndex,

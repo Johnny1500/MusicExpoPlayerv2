@@ -17,6 +17,7 @@ import {
   setCurrentPositionWithTimer,
 } from "../redux/mediaActions";
 
+// Player's control elements
 const Controls = ({
   playbackInstance,
   tracks,

@@ -10,6 +10,7 @@ import { setTracks, setPhoneOrientation } from "../redux/mediaActions";
 
 import TrackList from "./TrackList";
 
+// Home screen
 const Home = ({ loading, setTracks, setPhoneOrientation }) => {
   React.useEffect(() => {
     async function fetchData() {

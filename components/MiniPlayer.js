@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 // Redux stuff
 import { connect } from "react-redux";
 
+// Player's link in the home screen
 const MiniPlayer = ({ tracks, currentIndex, isPlaying, shuffledTimes }) => {
   React.useEffect(() => {
     // console.log("TrackList useEffect shuffledTimes :>> ", shuffledTimes);

@@ -2,6 +2,7 @@ import * as React from "react";
 import Svg, { Circle } from "react-native-svg";
 import { vmax } from "react-native-expo-viewport-units";
 
+// The circle change its size, while playing tracks
 const PulseCircle = () => {
   const [radius, setRadius] = React.useState(Math.floor(vmax(1.2)));
   
