@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
   },
 
   albumCover: {
-    width: vmax(52),
-    height: vmax(52),
+    width: vmax(50),
+    height: vmax(50),
   },
 
   albumContainer: {
@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
   },
 
   albumCoverLandscape: {
-    width: vmax(30),
-    height: vmax(30),
+    width: vmax(32),
+    height: vmax(32),
   },
 
   textInfo: {
