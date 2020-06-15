@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
   },
 
   albumCoverLandscape: {
-    width: vmax(34),
-    height: vmax(34),
+    width: vmax(30),
+    height: vmax(30),
   },
 
   textInfo: {
