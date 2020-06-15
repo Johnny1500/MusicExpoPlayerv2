@@ -20,3 +20,4 @@ This product includes software developed at
 © Copyright 2020 OpenJS Foundation (https://nodejs.org/)
 © Copyright 2017 StrongLoop, IBM, and other expressjs.com contributors (https://expressjs.com/)
 © Copyright 2020 https://expo.io/
+© Copyright 2020 https://reactnavigation.org/

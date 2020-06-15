@@ -15,6 +15,7 @@
     ],
     "splash": {
       "image": "./assets/splash.png"
-    }
+    },
+    "privacy": "unlisted"
   }
 }
