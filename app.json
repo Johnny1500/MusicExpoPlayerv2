@@ -17,6 +17,10 @@
       "image": "./assets/splash.png"
     },
     "privacy": "unlisted",
-    "description": "Mediaplayer with React Native and Expo"
+    "description": "Mediaplayer with React Native and Expo",
+    "android": {
+      "package": "io.github.sergeykiskinfl.mediaplayer",
+      "versionCode": 1
+    }
   }
 }
