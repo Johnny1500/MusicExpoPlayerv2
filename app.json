@@ -16,6 +16,7 @@
     "splash": {
       "image": "./assets/splash.png"
     },
-    "privacy": "unlisted"
+    "privacy": "unlisted",
+    "description": "Mediaplayer with React Native and Expo"
   }
 }

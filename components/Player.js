@@ -12,9 +12,8 @@ import Seekbar from "./Seekbar";
 
 // Player's screen
 const Player = ({ tracks, currentIndex, phoneOrientation, shuffledTimes }) => {
-  
   const { imageSource, album, title, author } = tracks[currentIndex];
-  
+
   return (
     <View
       style={
@@ -75,12 +74,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  lineStyle: {
-    borderWidth: 1,
-    borderColor: "#2f712f",
-    marginTop: vmax(4),
-  },
-
   albumCover: {
     width: vmax(52),
     height: vmax(52),
@@ -101,7 +94,7 @@ const styles = StyleSheet.create({
   },
 
   trackTitle: {
-    marginTop: vmax(2),
+    marginTop: vmax(1),
     fontWeight: "bold",
     fontSize: 20,
     color: "#1e481e",
